@@ -1,7 +1,6 @@
 import User from "../models/auth.model.js";
 import { errorHandler } from "../utils/errorHandler.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import {generateToken} from "../utils/tokenGenerator.js";
 
 export const signup = async (req, res, next) => {
@@ -95,7 +94,7 @@ export const googleAuth = async (req, res, next) => {
         profilePicture: photoURL,
       });
       await newUser.save();
-      generateToken(newUser._id);
+      generateToken(res, newUser._id);
       res.status(200).json({
         username: newUser.username,
         email: newUser.email,
@@ -108,5 +107,7 @@ export const googleAuth = async (req, res, next) => {
   
 
 }
+
+
 
 

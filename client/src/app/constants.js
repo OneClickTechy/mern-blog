@@ -1,2 +1,3 @@
 export const BASE_URL = "";
-export const USERS_URL = "/user";
+export const AUTH_URL = "api/auth";
+export const USERS_URL = "api/user";
