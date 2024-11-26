@@ -30,7 +30,7 @@ export default function Header() {
                  placement='bottom-end'
                 
                >
-                <ToggleTheme />
+                
                  <Dropdown.Header>
                    <span className="block text-sm">@{data.username}</span>
                    <span className="block truncate text-sm font-medium">{data.email}</span>

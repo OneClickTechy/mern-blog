@@ -13,7 +13,7 @@ import PrivateRoutes from "./components/PrivateRoutes";
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-white text-black dark:bg-gray-800 dark:text-white">
+      <div className="min-h-screen bg-white text-black dark:bg-slate-950 dark:text-white">
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
