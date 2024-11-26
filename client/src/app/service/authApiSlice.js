@@ -1,13 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api/auth" }),
-  tagTypes: ["Auth"],
+import { USERS_URL } from "../constants";
+import { apiSlice } from "./apiSlice";
+USERS_URL
+export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signup: builder.mutation({
       query: (userInfo) => ({
-        url: "/signup",
+        url: `${USERS_URL}/signup`,
         method: "POST",
         body: userInfo,
       }),
@@ -15,7 +13,7 @@ export const authApi = createApi({
     }),
     signin: builder.mutation({
       query: (userInfo) => ({
-        url: "/signin",
+        url: `${USERS_URL}/signin`,
         method: "POST",
         body: userInfo,
       }),
@@ -23,13 +21,13 @@ export const authApi = createApi({
     }),
     googleAuth: builder.mutation({
       query: (userInfo) => ({
-        url: "/google",
+        url: `${USERS_URL}/google`,
         method: "POST",
         body: userInfo,
       }),
       invalidatesTags: ["Auth"],
     }),
   }),
-});
+})
 
 export const { useSignupMutation, useSigninMutation, useGoogleAuthMutation } = authApi;

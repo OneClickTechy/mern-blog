@@ -3,7 +3,7 @@ import React from 'react'
 import {AiFillGoogleCircle} from 'react-icons/ai'
 import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { app } from '../firebase'
-import { useGoogleAuthMutation } from '../app/service/authSlice'
+import { useGoogleAuthMutation } from '../app/service/authApiSlice'
 import { Navigate } from 'react-router-dom'
 
 export default function OAuth() {

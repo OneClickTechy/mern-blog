@@ -1,8 +1,8 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSignupMutation } from '../app/service/authSlice';
 import OAuth from '../components/OAuth';
+import { useSignupMutation } from '../app/service/authApiSlice';
 
 export default function Signup() {
   const [formData, setFormData] = useState({

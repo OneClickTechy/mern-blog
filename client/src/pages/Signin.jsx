@@ -1,7 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { useSigninMutation } from "../app/service/authSlice";
+import { useSigninMutation } from "../app/service/authApiSlice";
 import OAuth from "../components/OAuth";
 
 export default function SignIn() {
