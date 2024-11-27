@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "start": "nodejs api/index.js",
-    "dev": "nodemon api/index.js"
+    "server": "nodemon api/index.js",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "concurrently": "^9.1.0",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
