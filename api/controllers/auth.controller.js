@@ -53,7 +53,7 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(400, "Password does not match"));
     }
 
-    generateToken(res, verifyUser._id);
+    generateToken(res, verifyUser._id, verifyUser.isAdmin);
     res.status(200).json({
       username: verifyUser.username,
       email: verifyUser.email,
@@ -73,7 +73,7 @@ export const googleAuth = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if(user){
-      generateToken(res, user._id);
+      generateToken(res, user._id, user.isAdmin);
       res.status(200).json({
         id: user._id,
         username: user.username,
@@ -96,7 +96,7 @@ export const googleAuth = async (req, res, next) => {
         profilePicture: photoURL,
       });
       await newUser.save();
-      generateToken(res, newUser._id);
+      generateToken(res, newUser._id, newUser.isAdmin);
       res.status(200).json({
         username: newUser.username,
         email: newUser.email,
