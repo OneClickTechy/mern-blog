@@ -36,7 +36,7 @@ export default function CreatePost() {
           className="h-72 mb-12"
           required
           />
-          <Button type="submit" gradientDuoTone='pinkToOrange' >Publish</Button>
+          <Button type="submit" gradientDuoTone='greenToBlue' >Publish</Button>
       </form>
     </section>
   )
