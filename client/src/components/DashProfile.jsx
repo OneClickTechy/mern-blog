@@ -9,6 +9,7 @@ import { Modal, Alert, Button, Spinner, TextInput } from "flowbite-react";
 import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useSignoutMutation } from "../app/service/authApiSlice";
 
 export default function DashProfile() {
   const { data } = useGetUserQuery();
@@ -16,6 +17,7 @@ export default function DashProfile() {
     useUpdateUserMutation();
   const [deleteUser, { isLoading: isDeleteLoading, isError: isDeleteError, isSuccess: isDeleteSuccess }] =
     useDeleteUserMutation();
+  const [signout] = useSignoutMutation();
   const imagePickerRef = useRef(null);
   const [imageFile, setimageFile] = useState(null);
   const [imageFileUrl, setimageFileUrl] = useState(null);
@@ -26,7 +28,9 @@ export default function DashProfile() {
   const [uploadError, setUploadError] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   
-
+  const handleSignout = async () => {
+    await signout();
+  }
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -217,9 +221,14 @@ export default function DashProfile() {
         {isError && (
           <Alert color="failure">Failed to update profile</Alert>
         )}
+        {
+          isDeleteError && (
+            <Alert color="failure">Failed to delete user</Alert>
+          )
+        }
         <div className="flex justify-between text-red-500">
           <span className="cursor-pointer" onClick={() => setOpenModal(true)}>Delete Account</span>
-          <span className="cursor-pointer">Sign out</span>
+          <span className="cursor-pointer" onClick={handleSignout}>Sign out</span>
         </div>
        <Modal show={openModal} onClose={() => setOpenModal(false)}>
           <Modal.Header />

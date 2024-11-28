@@ -27,7 +27,16 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Auth"],
     }),
+    signout: builder.mutation({
+      query: () => ({
+        url: `${AUTH_URL}/signout`,
+        method: "POST",
+        credentials: "include",
+      }),
+      invalidatesTags: ["Auth"],
+    }),
   }),
-})
+});
 
-export const { useSignupMutation, useSigninMutation, useGoogleAuthMutation } = authApi;
+export const { useSignupMutation, useSigninMutation, useGoogleAuthMutation, useSignoutMutation } =
+  authApi;

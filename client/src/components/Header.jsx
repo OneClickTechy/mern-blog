@@ -5,10 +5,16 @@ import {AiOutlineSearch} from "react-icons/ai"
 
 import { useGetUserQuery } from '../app/service/userApiSlice'
 import ToggleTheme from './ThemeToggler'
+import { useSignoutMutation } from '../app/service/authApiSlice'
 
 export default function Header() {
     const  path = useLocation().pathname;
     const {data, isSuccess}= useGetUserQuery();
+    const [signout]= useSignoutMutation();
+    
+    const handleSignout = async () => {
+      await signout();
+    }
   return (
     <Navbar>
         <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
@@ -41,7 +47,7 @@ export default function Header() {
                     </Dropdown.Item>
                     </Link>
                  <Dropdown.Divider />
-                 <Dropdown.Item>Sign out</Dropdown.Item>
+                 <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
                </Dropdown>
             )}
             {!isSuccess && (
