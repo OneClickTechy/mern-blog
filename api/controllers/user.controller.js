@@ -1,6 +1,7 @@
 import User from "../models/auth.model.js";
 import { errorHandler } from "../utils/errorHandler.js";
 import bcrypt from 'bcryptjs'
+
 export const profile = async (req, res, next) => {
     try {
         const {_id}=req.user;
@@ -74,6 +75,17 @@ export const updateProfile = async (req, res, next) => {
             email: updatedUser.email || user.email,
             profilePicture: updatedUser.profilePicture || user.profilePicture
         });
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteUser = async (req, res, next) => {
+    try {
+        const {_id: userId}=req.user;
+        await User.findByIdAndDelete(userId);
+        res.clearCookie('access_token');
+        res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
         next(error)
     }

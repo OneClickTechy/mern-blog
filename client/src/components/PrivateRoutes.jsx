@@ -3,7 +3,7 @@ import {Navigate, Outlet} from "react-router-dom"
 import LoadingPage from "./LoadingPage";
 export default function PrivateRoutes() {
     const {isSuccess, isError, isLoading} = useGetUserQuery();
-    console.log(isSuccess, isError)
+    
     if(isLoading){
         return <LoadingPage />
     }

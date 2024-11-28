@@ -35,9 +35,11 @@ export default function Header() {
                    <span className="block text-sm">@{data.username}</span>
                    <span className="block truncate text-sm font-medium">{data.email}</span>
                  </Dropdown.Header>
+                    <Link to="/dashboard?tab=profile">
                  <Dropdown.Item>
-                    <Link to="/dashboard?tab=profile">Profile</Link>
+                 Profile
                     </Dropdown.Item>
+                    </Link>
                  <Dropdown.Divider />
                  <Dropdown.Item>Sign out</Dropdown.Item>
                </Dropdown>
