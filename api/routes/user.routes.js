@@ -1,7 +1,10 @@
 import express from "express"
-import { profile } from "../controllers/user.controller.js";
+import { profile, updateProfile } from "../controllers/user.controller.js";
 import protectRoutes from "../middlewares/protectRoutes.js";
 const router = express.Router();
 
-router.get("/profile", protectRoutes ,profile)
+router
+.route("/profile").get(protectRoutes ,profile)
+.put(protectRoutes ,updateProfile)
+
 export default router

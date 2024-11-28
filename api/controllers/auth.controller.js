@@ -6,16 +6,10 @@ import {generateToken} from "../utils/tokenGenerator.js";
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  if (
-    !username ||
-    !email ||
-    !password ||
-    !username.trim() === "" ||
-    !email.trim() === "" ||
-    !password.trim() === ""
-  ) {
+  if (!username || !email || !password || username.trim() === "" || email.trim() === "" || password.trim() === "") {
     return next(errorHandler(400, "All fields are required"));
   }
+  
 
   try {
     const isExist = await User.findOne({ email });
@@ -40,8 +34,9 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
+  console.log(req.body);
   const { email, password } = req.body;
-  if (!email || !password || !email.trim() === "" || !password.trim() === "") {
+  if (!email || !password || email.trim() === "" || password.trim() === "") {
     return next(errorHandler(400, "All fields are required"));
   }
 
@@ -70,15 +65,17 @@ export const signin = async (req, res, next) => {
 
 export const googleAuth = async (req, res, next) => {
   const { name, email, photoURL } = req.body;
-  if(!name || !email || !photoURL || !name.trim() === "" || !email.trim() === "" || !photoURL.trim() === ""){
-    next(errorHandler(400, "All fields are required"));
+  if (!name || !email || !photoURL || name.trim() === "" || email.trim() === "" || photoURL.trim() === "") {
+    return next(errorHandler(400, "All fields are required")); 
   }
+  
 
   try {
     const user = await User.findOne({ email });
     if(user){
       generateToken(res, user._id);
       res.status(200).json({
+        id: user._id,
         username: user.username,
         email: user.email,
         profilePicture: user.profilePicture,
@@ -87,8 +84,13 @@ export const googleAuth = async (req, res, next) => {
       const password = Math.random().toString(36).slice(-8)+Math.random().toString(36).slice(-8)
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
+      let username = name.toLowerCase();
+      if((/\s+/g).test(username)){
+        username = username.replace(/\s+/g, '');
+      }
+      username = username + Math.random().toString(9).slice(-8);
       const newUser = new User({
-        username: name.toLowerCase().replace(/\s/g)+Math.random().toString(9).slice(-8),
+        username,
         email,
         password: hashedPassword,
         profilePicture: photoURL,
