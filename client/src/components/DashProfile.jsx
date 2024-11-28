@@ -10,6 +10,7 @@ import axios from "axios";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useSignoutMutation } from "../app/service/authApiSlice";
+import {Link} from "react-router-dom"
 
 export default function DashProfile() {
   const { data } = useGetUserQuery();
@@ -18,6 +19,7 @@ export default function DashProfile() {
   const [deleteUser, { isLoading: isDeleteLoading, isError: isDeleteError, isSuccess: isDeleteSuccess }] =
     useDeleteUserMutation();
   const [signout] = useSignoutMutation();
+  const {data:AuthUser}= useGetUserQuery();
   const imagePickerRef = useRef(null);
   const [imageFile, setimageFile] = useState(null);
   const [imageFileUrl, setimageFileUrl] = useState(null);
@@ -215,6 +217,11 @@ export default function DashProfile() {
             "Update"
           )}
         </Button>
+        {AuthUser?.isAdmin && (
+          <Link to="/create-post">
+          <Button gradientDuoTone="tealToLime" className="w-full">Create post</Button>
+          </Link>
+        )}
         {isSuccess && (
           <Alert color="success">Profile updated successfully</Alert>
         )}
