@@ -5,6 +5,7 @@ import {
   FileInput,
   Progress,
   Select,
+  Spinner,
   TextInput,
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -48,7 +49,9 @@ export default function CreatePost() {
 
     try {
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+        }/image/upload`,
         data,
         {
           onUploadProgress: (progressEvent) => {
@@ -77,11 +80,11 @@ export default function CreatePost() {
       setImageFileFromInputError(null);
     }
   };
-useEffect(()=>{
-  if(uploadedImageURL){
-    console.log(uploadedImageURL)
-  }
-},[uploadedImageURL])
+  useEffect(() => {
+    if (uploadedImageURL) {
+      console.log(uploadedImageURL);
+    }
+  }, [uploadedImageURL]);
 
   return (
     <section className="p-3 max-w-3xl mx-auto min-h-screen">
@@ -108,24 +111,38 @@ useEffect(()=>{
             className="flex-1"
             onChange={handleImageInputChange}
           />
-
-          <Button
-            type="button"
-            gradientDuoTone="purpleToBlue"
-            size="sm"
-            outline
-            disabled={!imageFileFromInput}
-            onClick={handleImageUpload}
-          >
-            Upload Image
-          </Button>
+          {isImageUploading ? (
+            <Button>
+              <Spinner aria-label="Spinner button uploading" size="sm" />
+              <span className="pl-3">Uploading...</span>
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              gradientDuoTone="purpleToBlue"
+              size="sm"
+              outline
+              disabled={!imageFileFromInput}
+              onClick={handleImageUpload}
+            >
+              Upload Image
+            </Button>
+          )}
         </div>
         {imageFileFromInputError && (
           <Alert color="failure">{imageFileFromInputError}</Alert>
         )}
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
         {isImageUploading && (
-          <Progress percent={imageUploadProgress} size="md" className="mb-4" />
+          <Progress
+            progress={imageUploadProgress}
+            progressLabelPosition="inside"
+            textLabel={`Uploading....`}
+            textLabelPosition="inside"
+            size="lg"
+            labelProgress
+            labelText
+          />
         )}
 
         {uploadedImageURL && (
@@ -151,4 +168,3 @@ useEffect(()=>{
     </section>
   );
 }
-
