@@ -11,16 +11,21 @@ import {
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useCreatePostMutation } from "../app/service/postApiSlice";
+import {Navigate} from "react-router-dom"
 
 export default function CreatePost() {
+  const [createPost, { data, isLoading, isSuccess, isError, error }] =
+    useCreatePostMutation();
   const [imageFileFromInput, setimageFileFromInput] = useState(null);
   const [imageFileFromInputError, setImageFileFromInputError] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [uploadedImageURL, setUploadedImageURL] = useState(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [publishError, setPublishError] = useState(null);
+  const [formData, setFormData] = useState({});
 
   const handleImageInputChange = (e) => {
     const file = e.target.files[0];
@@ -67,6 +72,10 @@ export default function CreatePost() {
       }
 
       setUploadedImageURL(response.data.secure_url);
+      setFormData({
+        ...formData,
+        image: response.data.secure_url,
+      });
       setIsImageUploading(false);
       setImageUploadProgress(null);
       setImageUploadError(null);
@@ -80,24 +89,39 @@ export default function CreatePost() {
       setImageFileFromInputError(null);
     }
   };
-  useEffect(() => {
-    if (uploadedImageURL) {
-      console.log(uploadedImageURL);
+  const handleSubmitPost = async (e) => {
+    try {
+      e.preventDefault();
+      const { title, content } = formData;
+      if (!title || !content || title.trim() === "" || content.trim() === "") {
+        throw new Error("Title and content are required");
+      }
+      await createPost(formData);
+    } catch (error) {
+      setPublishError(error.message || "Publish failed!");
     }
-  }, [uploadedImageURL]);
-
+  };
+console.log(data)
   return (
     <section className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-4xl font-semibold mt-7">Create Post</h1>
-      <form className="flex flex-col gap-4 mt-7">
+      <form className="flex flex-col gap-4 mt-7" onSubmit={handleSubmitPost}>
         <div className="flex flex-col gap-4 md:flex-row">
           <TextInput
             placeholder="Title"
             required
             id="title"
             className="flex-1"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
-          <Select id="category">
+          <Select
+            id="category"
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
             <option value="uncategorized">Select Category</option>
             <option value="reactjs">React JS</option>
             <option value="nodejs">Node JS</option>
@@ -154,17 +178,29 @@ export default function CreatePost() {
             />
           </div>
         )}
-
         <ReactQuill
           theme="snow"
           placeholder="Write something...."
           className="h-72 mb-12"
           required
+          onChange={(value) => setFormData({ ...formData, content: value })}
         />
+        {publishError && <Alert color="failure">{publishError}</Alert>}
+        {isError && <Alert color="failure">{error}</Alert>}
+        
         <Button type="submit" gradientDuoTone="greenToBlue">
-          Publish
+          {
+            isLoading ? (
+            <>
+            <Spinner aria-label="Spinner button uploading" size="sm" /><span>Publishing</span>
+            </>
+            ) : "Publish"
+        }
         </Button>
       </form>
+      {isSuccess && (
+        <Navigate to={`post/${data.post.slug}`}/>
+      )}
     </section>
   );
 }
