@@ -101,7 +101,6 @@ export default function CreatePost() {
       setPublishError(error.message || "Publish failed!");
     }
   };
-console.log(data)
   return (
     <section className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-4xl font-semibold mt-7">Create Post</h1>

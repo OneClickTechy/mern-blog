@@ -4,8 +4,11 @@ import DashSidebar from '../components/DashSidebar';
 import DashProfile from '../components/DashProfile';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTab, setTab } from '../app/features/dashboardSlice';
+import DashPosts from '../components/DashPosts';
+import { useGetUserQuery } from '../app/service/userApiSlice';
 
 export default function Dashboard() {
+  const {data:user}= useGetUserQuery();
   const location = useLocation();
   const tab = useSelector(getTab);
   const dispatch = useDispatch();
@@ -15,7 +18,6 @@ export default function Dashboard() {
     if(tabFromURL){
       dispatch(setTab(tabFromURL));
     }
-    console.log(tabFromURL, tab)
   },[location.search])
   return (
     <div className='min-h-screen flex flex-col sm:flex-row'>
@@ -25,6 +27,8 @@ export default function Dashboard() {
       </div>
       {/* Profile */}
         {tab === "profile" && <DashProfile /> }
+      {/* Posts */}
+        {tab === "posts" && user.isAdmin && <DashPosts user={user}/>}
     </div>
   )
 }
