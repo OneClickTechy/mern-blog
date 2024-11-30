@@ -9,9 +9,6 @@ const protectRoutes = async (req, res, next) => {
             return next(errorHandler(401, "You are not logged in"));
         }
         const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
-        if(!decoded){
-            return next(errorHandler(400, "Invalid token"));
-        }
         
         const user = await User.findById(decoded.userId).select("-password");
     

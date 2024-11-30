@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { useGetPostsByAdminQuery } from "../app/service/postApiSlice";
+import { useDeletePostMutation, useGetPostsByAdminQuery } from "../app/service/postApiSlice";
 import { useEffect } from "react";
-import { Table } from "flowbite-react";
+import { Button, Modal, Table } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+
 export default function DashPosts({ user }) {
   const [startIndex, setStartIndex] = useState(0);
   const [posts, setPosts] = useState([]);
   const { data, refetch } = useGetPostsByAdminQuery(
-    startIndex,
-    9,
-    "desc",
-    user?._id
+    {startIndex,
+    limit:9,
+    sort:"desc",
+    userId:user?._id}
   );
-  console.log(data);
-
+  const [deletePost, {isLoading, isError, isSuccess}]= useDeletePostMutation()
+  const [openModal, setOpenModal] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
   const handleShowMore = async () => {
     const newStartIndex = startIndex + 9;
     setStartIndex(startIndex + 9);
-    console.log(startIndex);
-    await refetch(newStartIndex, 9, "desc", user?._id);
+    await refetch({startIndex:newStartIndex, limit:9, sort:"desc", userId:user?._id});
   };
   const canShowMore = Boolean(posts?.length < data?.totalPosts);
   useEffect(() => {
@@ -28,7 +30,11 @@ export default function DashPosts({ user }) {
       setPosts((prev) => [...prev, ...newPosts]);
     }
   }, [data]);
-
+  const handleDeletePost = async () => {
+    setOpenModal(false);
+    await deletePost(postToDelete);
+    setPosts(posts.filter((post) => post._id !== postToDelete));
+  }
   return (
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.isAdmin && posts.length>0 ? (
@@ -65,8 +71,12 @@ export default function DashPosts({ user }) {
                       />
                     </Table.Cell>
                     <Table.Cell>{post.category}</Table.Cell>
-                    <Table.Cell>Edit</Table.Cell>
-                    <Table.Cell>Delete</Table.Cell>
+                    
+                    <Table.Cell className="font-medium text-red-500 hover:underline cursor-pointer" onClick={() =>{
+                      setOpenModal(true)
+                      setPostToDelete(post._id)
+                    }}>Delete</Table.Cell>
+                    <Table.Cell className="font-medium hover:underline cursor-pointer">Edit</Table.Cell>
                   </Table.Row>
                 ))}
             </Table.Body>
@@ -83,6 +93,27 @@ export default function DashPosts({ user }) {
       ) : (
         <p>You have no post!!!</p>
       )}
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+          <Modal.Header />
+          <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this post?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={()=>
+               handleDeletePost()
+              }>
+               Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setOpenModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+          </Modal.Body>
+       </Modal>
     </div>
   );
 }

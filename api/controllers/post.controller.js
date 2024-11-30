@@ -23,6 +23,7 @@ export const createPost = async (req, res, next) => {
 
 export const getPosts = async (req, res, next) => {
   try {
+    const { _id: userId } = req.user;
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
@@ -41,7 +42,7 @@ export const getPosts = async (req, res, next) => {
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
-    const totalPosts = await Post.countDocuments();
+    const totalPosts = await Post.countDocuments({userId});
     const now = new Date();
     const oneMonthAgo = new Date(
       now.getFullYear(),
@@ -50,6 +51,7 @@ export const getPosts = async (req, res, next) => {
     );
     const lastMonthPosts = await Post.countDocuments({
       updatedAt: { $gte: oneMonthAgo },
+      userId
     });
 
     res.status(200).json({ posts, totalPosts, lastMonthPosts, startIndex });
@@ -57,3 +59,22 @@ export const getPosts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deletePost = async (req, res, next) => {
+  const { postId } = req.params;
+  const { _id:userId } = req.user;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return next(errorHandler(404, "Post not found"));
+    }
+    console.log(typeof userId)
+    if (post.userId.toString() !== userId.toString()) {
+      return next(errorHandler(403, "You are not authorized"));
+    }
+    await post.deleteOne();
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    next(error)
+  }
+}

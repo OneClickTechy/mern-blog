@@ -9,7 +9,7 @@ export const generateToken = (res, userId, isAdmin) => {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       sameSite: "strict", // Prevent CSRF
-      maxAge: 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      maxAge: 24 * 60 * 60 * 1000, 
     });
     return token;
   } catch (error) {

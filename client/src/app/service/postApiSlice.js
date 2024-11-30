@@ -13,7 +13,7 @@ export const postApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Posts"],
     }),
     getPostsByAdmin: builder.query({
-      query: (startIndex = 0, limit = 9, sort = "desc", userId, category, slug, postId, searchTerm) => {
+      query: ({startIndex = 0, limit = 9, sort = "desc", userId, category, slug, postId, searchTerm}) => {
         
         const params = new URLSearchParams({
           startIndex: String(startIndex),
@@ -34,7 +34,16 @@ export const postApi = apiSlice.injectEndpoints({
       },
       providesTags: ["Posts"],
     }),
+    deletePost: builder.mutation({
+      query: (postId) => ({
+        url: `${POST_URL}/deletePost/${postId}`,
+        method: "DELETE",
+        credentials: "include",
+        body: {postId},
+      }),
+      invalidatesTags: ["Posts"],
+    })
   }),
 });
 
-export const { useCreatePostMutation, useGetPostsByAdminQuery } = postApi;
+export const { useCreatePostMutation, useGetPostsByAdminQuery, useDeletePostMutation } = postApi;
