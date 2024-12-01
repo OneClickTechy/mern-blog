@@ -16,6 +16,7 @@ export const authApi = apiSlice.injectEndpoints({
         url: `${AUTH_URL}/signin`,
         method: "POST",
         body: userInfo,
+        credentials: "include",
       }),
       invalidatesTags: ["Auth"],
     }),

@@ -34,7 +34,6 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-  console.log(req.body);
   const { email, password } = req.body;
   if (!email || !password || email.trim() === "" || password.trim() === "") {
     return next(errorHandler(400, "All fields are required"));
@@ -52,7 +51,7 @@ export const signin = async (req, res, next) => {
     if (!matchPassword) {
       return next(errorHandler(400, "Password does not match"));
     }
-
+    // console.log("verifyUser", verifyUser); 
     generateToken(res, verifyUser._id, verifyUser.isAdmin);
     res.status(200).json({
       username: verifyUser.username,

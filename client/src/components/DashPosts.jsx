@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useDeletePostMutation, useGetPostsByAdminQuery } from "../app/service/postApiSlice";
 import { useEffect } from "react";
 import { Button, Modal, Table } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 export default function DashPosts({ user }) {
   const [startIndex, setStartIndex] = useState(0);
@@ -13,7 +14,7 @@ export default function DashPosts({ user }) {
     sort:"desc",
     userId:user?._id}
   );
-  const [deletePost, {isLoading, isError, isSuccess}]= useDeletePostMutation()
+  const [deletePost, {}]= useDeletePostMutation()
   const [openModal, setOpenModal] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const handleShowMore = async () => {
@@ -76,7 +77,11 @@ export default function DashPosts({ user }) {
                       setOpenModal(true)
                       setPostToDelete(post._id)
                     }}>Delete</Table.Cell>
-                    <Table.Cell className="font-medium hover:underline cursor-pointer">Edit</Table.Cell>
+                    <Table.Cell className="font-medium hover:underline cursor-pointer">
+                      <Link to={`/update-post/${post._id}`}>
+                      Edit
+                      </Link>
+                      </Table.Cell>
                   </Table.Row>
                 ))}
             </Table.Body>
@@ -105,7 +110,7 @@ export default function DashPosts({ user }) {
               <Button color="failure" onClick={()=>
                handleDeletePost()
               }>
-               Yes, I'm sure
+               {"Yes, I\'m sure"}
               </Button>
               <Button color="gray" onClick={() => setOpenModal(false)}>
                 No, cancel

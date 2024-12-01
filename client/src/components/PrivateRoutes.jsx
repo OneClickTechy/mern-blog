@@ -3,7 +3,7 @@ import {Navigate, Outlet} from "react-router-dom"
 import LoadingPage from "./LoadingPage";
 export default function PrivateRoutes() {
     
-    const {isSuccess, isError, isLoading} = useGetUserQuery();
+    const {isSuccess, isError, isLoading, data, error} = useGetUserQuery();
     
     if(isLoading){
         return <LoadingPage />
@@ -12,11 +12,7 @@ export default function PrivateRoutes() {
         return <Outlet />
     }
     if(isError){
-        return (
-        <div>
-        <Navigate to='/sign-in'/>
-        </div>
-        )
+        return <Navigate to='/sign-in'/>
     }
   
 }

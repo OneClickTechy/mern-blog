@@ -1,8 +1,8 @@
 const onlyAdminRoutes = async (req, res, next) => {
-    if (req.user.isAdmin) {
-        next();
+    if (req?.user?.isAdmin) {
+        return next();
     } else {
-        return res.status(403).json({ message: "Access Denied" });
+        return res.status(403).json({  message: "Forbidden, admin access only" });
     }
 };
 

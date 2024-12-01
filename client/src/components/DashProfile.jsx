@@ -211,7 +211,7 @@ export default function DashProfile() {
         >
           {isLoading ? (
             <>
-              <Spinner size="sm" /> <span>Update in progress"</span>
+              <Spinner size="sm" /> <span>Update in progress</span>
             </>
           ) : (
             "Update"

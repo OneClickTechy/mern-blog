@@ -25,25 +25,33 @@ export const postApi = apiSlice.injectEndpoints({
           ...(postId && { postId }),
           ...(searchTerm && { searchTerm }),
         });
-        console.log(typeof startIndex)
-        console.log(params.toString())
+        console.log(`${POST_URL}/getposts-as-admin?${params.toString()}`)
         return ({
             url: `${POST_URL}/getposts-as-admin?${params.toString()}`,
             method: 'GET',
+            credentials: "include",
         });
       },
       providesTags: ["Posts"],
     }),
+  
     deletePost: builder.mutation({
       query: (postId) => ({
         url: `${POST_URL}/deletePost/${postId}`,
         method: "DELETE",
         credentials: "include",
-        body: {postId},
+      }),
+      invalidatesTags: ["Posts"],
+    }),
+    updatePost: builder.mutation({
+      query: (postId) => ({
+        url: `${POST_URL}/updatePost/${postId}`,
+        method: "PUT",
+        credentials: "include",
       }),
       invalidatesTags: ["Posts"],
     })
   }),
 });
 
-export const { useCreatePostMutation, useGetPostsByAdminQuery, useDeletePostMutation } = postApi;
+export const { useCreatePostMutation, useGetPostsByAdminQuery, useDeletePostMutation, useUpdatePostMutation } = postApi;

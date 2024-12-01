@@ -4,8 +4,11 @@ import { USERS_URL } from "../constants";
 export const userApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getUser: builder.query({
-            query: () => `${USERS_URL}/profile`,
-            credentials: "include",
+            query: () =>({
+                url: `${USERS_URL}/profile`,
+                method: "GET",
+                credentials: "include",
+            }),
             providesTags: ["Auth"],
         }),
         updateUser: builder.mutation({

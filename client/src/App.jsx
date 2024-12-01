@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -11,6 +10,7 @@ import Footercom from "./components/Footer";
 import PrivateRoutes from "./components/PrivateRoutes";
 import OnlyAdminPrivateRoutes from "./components/OnlyAdminPrivateRoutes";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
 
 export default function App() {
   return (
@@ -35,6 +35,7 @@ export default function App() {
           {/* Admin Routes */}
           <Route element={<OnlyAdminPrivateRoutes />}>
             <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/update-post/:postId" element={<UpdatePost />} />
           </Route>
         </Routes>
         <Footercom />

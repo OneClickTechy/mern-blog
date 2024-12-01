@@ -25,6 +25,7 @@ export const getPosts = async (req, res, next) => {
   try {
     const { _id: userId } = req.user;
     const startIndex = parseInt(req.query.startIndex) || 0;
+    console.log(req.query)
     const limit = parseInt(req.query.limit) || 10;
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
     const posts = await Post.find({
@@ -53,7 +54,6 @@ export const getPosts = async (req, res, next) => {
       updatedAt: { $gte: oneMonthAgo },
       userId
     });
-
     res.status(200).json({ posts, totalPosts, lastMonthPosts, startIndex });
   } catch (error) {
     next(error);
@@ -68,12 +68,35 @@ export const deletePost = async (req, res, next) => {
     if (!post) {
       return next(errorHandler(404, "Post not found"));
     }
-    console.log(typeof userId)
     if (post.userId.toString() !== userId.toString()) {
       return next(errorHandler(403, "You are not authorized"));
     }
     await post.deleteOne();
     res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updatePost = async (req, res, next) => {
+  const { postId } = req.params;
+  console.log(req.body)
+  const { _id:userId } = req.user;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return next(errorHandler(404, "Post not found"));
+    }
+    if (post.userId.toString() !== userId.toString()) {
+      return next(errorHandler(403, "You are not authorized"));
+    }
+    await Post.findByIdAndUpdate(postId, {
+      title: req.body.title,
+      content: req.body.content,
+      category: req.body.category,
+      image: req.body.image,
+    });
+    res.status(200).json({ message: "Post updated successfully" });
   } catch (error) {
     next(error)
   }

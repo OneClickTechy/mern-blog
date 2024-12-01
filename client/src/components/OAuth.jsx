@@ -9,7 +9,6 @@ import { Navigate } from 'react-router-dom'
 export default function OAuth() {
     const auth= getAuth(app);
     const [googleAuth, {isSuccess, isError, isLoading, error}] = useGoogleAuthMutation();
-    console.log({isSuccess, isError, isLoading, error})
     const handleClick = async () => {
         const provider = new GoogleAuthProvider()
         provider.setCustomParameters({prompt: 'select_account'})

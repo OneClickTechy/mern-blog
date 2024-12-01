@@ -5,11 +5,10 @@ import bcrypt from 'bcryptjs'
 export const profile = async (req, res, next) => {
     try {
         const {_id}=req.user;
-        console.log(_id)
         const user = await User.findById(_id).select("-password");
         res.status(200).json(user);
     } catch (error) {
-        next(error)
+        next(error)``
     }
    }
 

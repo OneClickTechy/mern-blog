@@ -9,7 +9,9 @@ import { useSignoutMutation } from '../app/service/authApiSlice'
 
 export default function Header() {
     const  path = useLocation().pathname;
-    const {data, isSuccess}= useGetUserQuery();
+    const {data, error, isSuccess}= useGetUserQuery();
+    console.log(data, error, isSuccess)
+
     const [signout]= useSignoutMutation();
     
     const handleSignout = async () => {
