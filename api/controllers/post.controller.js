@@ -68,7 +68,7 @@ export const deletePost = async (req, res, next) => {
       return next(errorHandler(404, "Post not found"));
     }
     if (post.userId.toString() !== userId.toString()) {
-      return next(errorHandler(403, "You are not authorized"));
+      return next(errorHandler(403, "You cannot delete this post"));
     }
     await post.deleteOne();
     res.status(200).json({ message: "Post deleted successfully" });
@@ -88,7 +88,7 @@ export const updatePost = async (req, res, next) => {
       return next(errorHandler(404, "Post not found"));
     }
     if (post.userId.toString() !== userId.toString()) {
-      return next(errorHandler(403, "You are not authorized"));
+      return next(errorHandler(403, "You cannot update this post"));
     }
     const postUpdated = await Post.findByIdAndUpdate(postId, {
       title,
