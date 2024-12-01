@@ -90,7 +90,7 @@ export default function SignIn() {
           {isSuccess && 
           <>
           <Alert color="success">SignIn Successfully</Alert>
-          {/* <Navigate to="/"/> */}
+          <Navigate to="/"/>
           </>
           }
         </div>

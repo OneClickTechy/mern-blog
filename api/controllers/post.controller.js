@@ -25,7 +25,6 @@ export const getPosts = async (req, res, next) => {
   try {
     const { _id: userId } = req.user;
     const startIndex = parseInt(req.query.startIndex) || 0;
-    console.log(req.query)
     const limit = parseInt(req.query.limit) || 10;
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
     const posts = await Post.find({
@@ -80,8 +79,9 @@ export const deletePost = async (req, res, next) => {
 
 export const updatePost = async (req, res, next) => {
   const { postId } = req.params;
-  console.log(req.body)
   const { _id:userId } = req.user;
+  const {title, content, category, image}= req.body;
+  console.log("body from post controller:",req.body);
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -90,13 +90,13 @@ export const updatePost = async (req, res, next) => {
     if (post.userId.toString() !== userId.toString()) {
       return next(errorHandler(403, "You are not authorized"));
     }
-    await Post.findByIdAndUpdate(postId, {
-      title: req.body.title,
-      content: req.body.content,
-      category: req.body.category,
-      image: req.body.image,
-    });
-    res.status(200).json({ message: "Post updated successfully" });
+    const postUpdated = await Post.findByIdAndUpdate(postId, {
+      title,
+      content, 
+      category,
+      image,
+    },{new: true});
+    res.status(200).json({ message: "Post updated successfully", post: postUpdated  });
   } catch (error) {
     next(error)
   }

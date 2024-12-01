@@ -3,7 +3,6 @@ import User from "../models/auth.model.js";
 import jwt from 'jsonwebtoken'
 const protectRoutes = async (req, res, next) => {
     try {
-        console.log(req)
         const { access_token } = req.cookies;
         
         if(!access_token){
@@ -23,7 +22,6 @@ const protectRoutes = async (req, res, next) => {
         if(!user){
             return next(errorHandler(404, "User does not exist"));
         }
-        console.log("protect Route is passed")
         req.user = user;
         next();
     } catch (error) {

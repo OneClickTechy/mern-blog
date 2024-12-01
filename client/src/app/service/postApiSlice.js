@@ -13,8 +13,16 @@ export const postApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Posts"],
     }),
     getPostsByAdmin: builder.query({
-      query: ({startIndex = 0, limit = 9, sort = "desc", userId, category, slug, postId, searchTerm}) => {
-        
+      query: ({
+        startIndex = 0,
+        limit = 9,
+        sort = "desc",
+        userId,
+        category,
+        slug,
+        postId,
+        searchTerm,
+      }) => {
         const params = new URLSearchParams({
           startIndex: String(startIndex),
           limit: String(limit),
@@ -25,16 +33,15 @@ export const postApi = apiSlice.injectEndpoints({
           ...(postId && { postId }),
           ...(searchTerm && { searchTerm }),
         });
-        console.log(`${POST_URL}/getposts-as-admin?${params.toString()}`)
-        return ({
-            url: `${POST_URL}/getposts-as-admin?${params.toString()}`,
-            method: 'GET',
-            credentials: "include",
-        });
+        console.log(`${POST_URL}/getposts-as-admin?${params.toString()}`);
+        return {
+          url: `${POST_URL}/getposts-as-admin?${params.toString()}`,
+          method: "GET",
+          credentials: "include",
+        };
       },
       providesTags: ["Posts"],
     }),
-  
     deletePost: builder.mutation({
       query: (postId) => ({
         url: `${POST_URL}/deletePost/${postId}`,
@@ -44,14 +51,25 @@ export const postApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Posts"],
     }),
     updatePost: builder.mutation({
-      query: (postId) => ({
+      query: ({postId, updatedData}) => ({
         url: `${POST_URL}/updatePost/${postId}`,
         method: "PUT",
         credentials: "include",
+        body: {
+          title: updatedData.title,
+          content: updatedData.content,
+          category: updatedData.category,
+          image: updatedData.image,
+        },
       }),
       invalidatesTags: ["Posts"],
-    })
+    }),
   }),
 });
 
-export const { useCreatePostMutation, useGetPostsByAdminQuery, useDeletePostMutation, useUpdatePostMutation } = postApi;
+export const {
+  useCreatePostMutation,
+  useGetPostsByAdminQuery,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+} = postApi;

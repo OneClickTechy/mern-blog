@@ -11,7 +11,6 @@ export const generateToken = (res, userId, isAdmin) => {
       sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000, 
     });
-    console.log("token",token);
     return token;
   } catch (error) {
     console.error("Error generating token:", error);

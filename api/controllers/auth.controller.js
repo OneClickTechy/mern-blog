@@ -51,7 +51,6 @@ export const signin = async (req, res, next) => {
     if (!matchPassword) {
       return next(errorHandler(400, "Password does not match"));
     }
-    // console.log("verifyUser", verifyUser); 
     generateToken(res, verifyUser._id, verifyUser.isAdmin);
     res.status(200).json({
       username: verifyUser.username,
