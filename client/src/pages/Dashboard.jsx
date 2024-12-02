@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTab, setTab } from '../app/features/dashboardSlice';
 import DashPosts from '../components/DashPosts';
 import { useGetUserQuery } from '../app/service/userApiSlice';
+import DashUsers from '../components/DashUsers';
 
 export default function Dashboard() {
   const {data:user}= useGetUserQuery();
@@ -29,6 +30,8 @@ export default function Dashboard() {
         {tab === "profile" && <DashProfile /> }
       {/* Posts */}
         {tab === "posts" && user.isAdmin && <DashPosts user={user}/>}
+      {/* Users */}
+        {tab === "users" && user.isAdmin && <DashUsers user={user}/>}
     </div>
   )
 }

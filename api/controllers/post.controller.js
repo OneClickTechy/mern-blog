@@ -53,7 +53,7 @@ export const getPosts = async (req, res, next) => {
       updatedAt: { $gte: oneMonthAgo },
       userId
     });
-    res.status(200).json({ posts, totalPosts, lastMonthPosts, startIndex });
+    res.status(200).json({ posts, totalPosts, lastMonthPosts });
   } catch (error) {
     next(error);
   }

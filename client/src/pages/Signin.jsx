@@ -5,13 +5,14 @@ import { useSigninMutation } from "../app/service/authApiSlice";
 import OAuth from "../components/OAuth";
 
 export default function SignIn() {
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [signin, { isLoading, isSuccess, isError, error }] =
     useSigninMutation();
-  
+  console.log(error)
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
@@ -80,19 +81,20 @@ export default function SignIn() {
             </Button>
             <OAuth />
           </form>
+          {isError && <Alert color="failure" className="mt-4">{error.data.message}</Alert>}
+          {isSuccess && 
+          <>
+          <Alert color="success"  className="mt-4">SignIn Successfully</Alert>
+          <Navigate to="/"/>
+          </>
+          }
           <div className="text-sm mt-5 flex gap-2">
             <span>Don't Have an account?</span>
             <Link to="/sign-up" className="text-blue-500">
               Sign Up
             </Link>
           </div>
-          {isError && <Alert color="failure">{error.message}</Alert>}
-          {isSuccess && 
-          <>
-          <Alert color="success">SignIn Successfully</Alert>
-          <Navigate to="/"/>
-          </>
-          }
+         
         </div>
       </div>
     </section>

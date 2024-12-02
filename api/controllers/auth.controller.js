@@ -17,14 +17,19 @@ export const signup = async (req, res, next) => {
     if (isExist) {
       return next(errorHandler(400, "User already exist"));
     }
-
+    let formatedUsername = username.toLowerCase();
+      if((/\s+/g).test(formatedUsername)){
+        formatedUsername = formatedUsername.replace(/\s+/g, '');
+      }
+      formatedUsername = formatedUsername + Math.random().toString(9).slice(-8);
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = new User({
-      username,
+      username: formatedUsername,
       email,
       password: hashedPassword,
+      isAdmin: false,
     });
     await user.save();
     res.status(201).json("User Created Successfully");
@@ -71,6 +76,7 @@ export const googleAuth = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if(user){
+      console.log("from google auth:",user)
       generateToken(res, user._id, user.isAdmin);
       res.status(200).json({
         id: user._id,
@@ -92,6 +98,7 @@ export const googleAuth = async (req, res, next) => {
         email,
         password: hashedPassword,
         profilePicture: photoURL,
+        isAdmin: false,
       });
       await newUser.save();
       generateToken(res, newUser._id, newUser.isAdmin);

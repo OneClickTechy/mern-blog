@@ -1,6 +1,6 @@
 import React from "react";
 import { Sidebar } from "flowbite-react";
-import { HiDocumentText, HiUser } from "react-icons/hi";
+import { HiDocumentText, HiUser, HiUserGroup } from "react-icons/hi";
 import { HiMiniArrowLeftStartOnRectangle } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { getTab } from "../app/features/dashboardSlice";
@@ -31,6 +31,7 @@ export default function DashSidebar() {
             </Sidebar.Item>
           </Link>
           {user.isAdmin && (
+            <>
             <Link to="/dashboard?tab=posts">
               <Sidebar.Item
                 active={tab === "posts"}
@@ -40,6 +41,16 @@ export default function DashSidebar() {
                 Posts
               </Sidebar.Item>
             </Link>
+            <Link to="/dashboard?tab=users">
+              <Sidebar.Item
+                active={tab === "users"}
+                icon={HiUserGroup}
+                as="div"
+              >
+                Users
+              </Sidebar.Item>
+            </Link>
+            </>
           )}
           <Sidebar.Item
             icon={HiMiniArrowLeftStartOnRectangle}

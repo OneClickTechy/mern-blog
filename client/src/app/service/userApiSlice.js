@@ -21,14 +21,33 @@ export const userApi = apiSlice.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
         deleteUser: builder.mutation({
-            query: () => ({
-                url: `${USERS_URL}/profile`,
+            query: (id) => ({
+                url: `${USERS_URL}/profile/${id}`,
                 method: "DELETE",
                 credentials: "include",
             }),
             invalidatesTags:['Auth'],
+        }),
+        getUsers: builder.query({
+            query: ({
+                startIndex = 0,
+                limit = 9,
+                sort = "desc",
+            }) => {
+                const params = new URLSearchParams({
+                    startIndex: String(startIndex),
+                    limit: String(limit),
+                    sort,
+                })
+                return {
+                    url: `${USERS_URL}/getUsers?${params.toString()}`,
+                    method: "GET",
+                    credentials: "include",
+                }
+            },
+            credentials: "include",
         })
     }),
 });
 
-export const { useGetUserQuery, useUpdateUserMutation, useDeleteUserMutation } = userApi;
+export const { useGetUserQuery, useUpdateUserMutation, useDeleteUserMutation, useGetUsersQuery } = userApi;

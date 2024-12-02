@@ -33,7 +33,6 @@ export const postApi = apiSlice.injectEndpoints({
           ...(postId && { postId }),
           ...(searchTerm && { searchTerm }),
         });
-        console.log(`${POST_URL}/getposts-as-admin?${params.toString()}`);
         return {
           url: `${POST_URL}/getposts-as-admin?${params.toString()}`,
           method: "GET",

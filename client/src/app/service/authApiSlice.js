@@ -25,6 +25,7 @@ export const authApi = apiSlice.injectEndpoints({
         url: `${AUTH_URL}/google`,
         method: "POST",
         body: userInfo,
+        credentials: "include",
       }),
       invalidatesTags: ["Auth"],
     }),
