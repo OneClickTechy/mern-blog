@@ -76,7 +76,6 @@ export const googleAuth = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if(user){
-      console.log("from google auth:",user)
       generateToken(res, user._id, user.isAdmin);
       res.status(200).json({
         id: user._id,

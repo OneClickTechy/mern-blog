@@ -130,7 +130,7 @@ export default function DashProfile() {
     }
   };
   const handleDeleteUser = async () => {
-    await deleteUser();
+    await deleteUser(data._id);
       setOpenModal(false);
   }
   useEffect(() => {
