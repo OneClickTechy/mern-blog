@@ -8,8 +8,8 @@ export const postApi = apiSlice.injectEndpoints({
         url: `${POST_URL}/create`,
         method: "POST",
         body: post,
+        credentials: "include",
       }),
-      credentials: "include",
       invalidatesTags: ["Posts"],
     }),
     getPostsByAdmin: builder.query({
@@ -35,6 +35,35 @@ export const postApi = apiSlice.injectEndpoints({
         });
         return {
           url: `${POST_URL}/getposts-as-admin?${params.toString()}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+      providesTags: ["Posts"],
+    }),
+    getPosts: builder.query({
+      query: ({
+        startIndex = 0,
+        limit = 9,
+        sort = "desc",
+        userId,
+        category,
+        slug,
+        postId,
+        searchTerm,
+      }) => {
+        const params = new URLSearchParams({
+          startIndex: String(startIndex),
+          limit: String(limit),
+          sort,
+          ...(userId && { userId }),
+          ...(category && { category }),
+          ...(slug && { slug }),
+          ...(postId && { postId }),
+          ...(searchTerm && { searchTerm }),
+        });
+        return {
+          url: `${POST_URL}/getposts?${params.toString()}`,
           method: "GET",
           credentials: "include",
         };
@@ -69,6 +98,7 @@ export const postApi = apiSlice.injectEndpoints({
 export const {
   useCreatePostMutation,
   useGetPostsByAdminQuery,
+  useGetPostsQuery,
   useDeletePostMutation,
   useUpdatePostMutation,
 } = postApi;

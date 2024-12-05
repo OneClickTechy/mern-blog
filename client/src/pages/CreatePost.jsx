@@ -8,12 +8,12 @@ import {
   Spinner,
   TextInput,
 } from "flowbite-react";
-import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import React, { useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { useCreatePostMutation } from "../app/service/postApiSlice";
 import {Navigate} from "react-router-dom"
+import ReactQuill from 'react-quill';
+  import 'react-quill/dist/quill.snow.css';
 
 export default function CreatePost() {
   const [createPost, { data, isLoading, isSuccess, isError, error }] =
@@ -26,7 +26,7 @@ export default function CreatePost() {
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [publishError, setPublishError] = useState(null);
   const [formData, setFormData] = useState({});
-
+  
   const handleImageInputChange = (e) => {
     const file = e.target.files[0];
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
@@ -185,7 +185,7 @@ export default function CreatePost() {
           onChange={(value) => setFormData({ ...formData, content: value })}
         />
         {publishError && <Alert color="failure">{publishError}</Alert>}
-        {isError && <Alert color="failure">{error}</Alert>}
+        {isError && <Alert color="failure">{error.data.message}</Alert>}
         
         <Button type="submit" gradientDuoTone="greenToBlue">
           {

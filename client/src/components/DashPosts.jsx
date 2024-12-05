@@ -63,7 +63,9 @@ export default function DashPosts({ user }) {
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {new Date(post.updatedAt).toLocaleDateString()}
                     </Table.Cell>
-                    <Table.Cell>{post.title}</Table.Cell>
+                   
+                    <Table.Cell> <Link to={`/post/${post.slug}`}>{post.title}</Link></Table.Cell>
+                    
                     <Table.Cell>
                       <img
                         src={post.image}
