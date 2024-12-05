@@ -23,7 +23,7 @@ export default function Comment({ comment }) {
           <div className="flex flex-col gap-2">
             <span>@{commentUser.username}</span>
             <span>{comment.content}</span>
-          <div>
+          <div className="flex items-center gap-2">
             <button type="button" onClick={handleLikeComment}><BiSolidLike color={comment.likes.includes(user._id) ? "78B3CE" : "gray"} size={20}  /></button>
             <p className="text-gray-500">{comment && comment.numberOfLikes>0 && comment.numberOfLikes}{comment && comment.numberOfLikes>0 ? (comment.numberOfLikes===1 ? " like" : " likes") : null}</p>
           </div>
