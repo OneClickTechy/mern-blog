@@ -124,3 +124,15 @@ export const getUsersProfile = async (req, res, next) => {
     next(error);
   }
 };
+export const getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select("-password");
+    if(!user){
+      return next(errorHandler(404, "User not found"));
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    next(error)
+  }
+}

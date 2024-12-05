@@ -11,8 +11,20 @@ const commentApi = apiSlice.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: ["Comments"],
+        }),
+        getComments: builder.query({
+            query: (postId) => `${COMMENT_URL}/${postId}`,
+            providesTags: ["Comments"],
+        }),
+        likeComment: builder.mutation({
+            query: (commentId) => ({
+                url: `${COMMENT_URL}/likeComment/${commentId}`,
+                method: "PUT",
+                credentials: "include",
+            }),
+            invalidatesTags: ["Comments"],
         })
     })
 })
 
-export const { useCreateCommentMutation } = commentApi;
+export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation } = commentApi;
