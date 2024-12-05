@@ -6,6 +6,7 @@ import { Button } from 'flowbite-react';
 import { formatDistanceToNow } from 'date-fns'
 import { IoMdTime } from "react-icons/io";
 import CallToAction from '../components/CallToAction';
+import CommentSection from '../components/CommentSection';
 
 export default function Post() {
     const {slug} =useParams();
@@ -41,13 +42,10 @@ export default function Post() {
                 <div>
                     <CallToAction />
                 </div>
+                <CommentSection postId={post._id} />
             </main>
         )
     }
     
-  return (
-<div>
-    data not found
-</div>
-  )
+
 }

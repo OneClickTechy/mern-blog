@@ -12,11 +12,13 @@ import OnlyAdminPrivateRoutes from "./components/OnlyAdminPrivateRoutes";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
 import Post from "./pages/Post";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-white text-black dark:bg-slate-950 dark:text-white">
+        <ScrollToTop />
         <Header />
         <Routes>
           {/* Public Routes */}
