@@ -8,7 +8,15 @@ export const createPost = async (req, res, next) => {
       return next(errorHandler(400, "Title and content are required"));
     }
 
-    const slug = title.replace(/\s+/g, "-").toLowerCase().replace(/\W+/g, "");
+    const generateSlug = (title) => {
+      return title
+        .trim() // Remove leading and trailing whitespace
+        .toLowerCase() // Convert to lowercase
+        .replace(/[^a-z0-9\s-]/g, "") // Remove non-alphanumeric characters except spaces and hyphens
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-"); // Remove consecutive hyphens
+    };
+    const slug = generateSlug(title);
     const post = new Post({
       ...req.body,
       slug,
@@ -124,11 +132,21 @@ export const updatePost = async (req, res, next) => {
     if (post.userId.toString() !== userId.toString()) {
       return next(errorHandler(403, "You cannot update this post"));
     }
+    const generateSlug = (title) => {
+      return title
+        .trim() // Remove leading and trailing whitespace
+        .toLowerCase() // Convert to lowercase
+        .replace(/[^a-z0-9\s-]/g, "") // Remove non-alphanumeric characters except spaces and hyphens
+        .replace(/\s+/g, "-") // Replace spaces with hyphens
+        .replace(/-+/g, "-"); // Remove consecutive hyphens
+    };
+    const slug = generateSlug(title);    
     const postUpdated = await Post.findByIdAndUpdate(postId, {
       title,
       content, 
       category,
       image,
+      slug,
     },{new: true});
     res.status(200).json({ message: "Post updated successfully", post: postUpdated  });
   } catch (error) {

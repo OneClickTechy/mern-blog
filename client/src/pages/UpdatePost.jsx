@@ -1,45 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import {Navigate, useParams} from "react-router-dom"
-import {useGetPostsByAdminQuery, useUpdatePostMutation} from "../app/service/postApiSlice"
-import { Alert, Button, FileInput, Progress, Select, Spinner, TextInput } from 'flowbite-react';
-import axios from 'axios';
-import ReactQuill from 'react-quill';
+import React, { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
+import {
+  useGetPostsByAdminQuery,
+  useUpdatePostMutation,
+} from "../app/service/postApiSlice";
+import {
+  Alert,
+  Button,
+  FileInput,
+  Progress,
+  Select,
+  Spinner,
+  TextInput,
+} from "flowbite-react";
+import axios from "axios";
+import ReactQuill from "react-quill";
 
 export default function UpdatePost() {
-  const {postId}= useParams();
-  const {data:postData, error:postError, isLoading:isPostFetching}=useGetPostsByAdminQuery({postId});
-  const [updatePost, {data,isLoading, error, isSuccess}]=useUpdatePostMutation();
+  const { postId } = useParams();
+  const {
+    data: postData,
+    error: postError,
+    isLoading: isPostFetching,
+  } = useGetPostsByAdminQuery({ postId });
+  const [updatePost, { data, isLoading, error, isSuccess }] =
+    useUpdatePostMutation();
   const post = postData?.posts?.[0];
-  const [formData, setFormData]=useState({
+  const [formData, setFormData] = useState({
     title: "",
     content: "",
     category: "",
     image: "",
-  })
-  const [image, setImage]=useState(null)
+  });
+  const [image, setImage] = useState(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
-  const [localError, setLocalError]=useState(null);
-  const [publishError, setPublishError]=useState(null);
+  const [localError, setLocalError] = useState(null);
+  const [publishError, setPublishError] = useState(null);
   useEffect(() => {
-    if(post){
+    if (postData?.posts?.length > 0) {
+      const { title, content, category, image } = postData.posts[0];
       setFormData({
-        title: post.title,
-        content: post.content,
-        category: post.category,
-        image: post.image
-      })
+        title,
+        content,
+        category,
+        image,
+      });
     }
-  },[post])
-  useEffect(()=>{
-    if(error?.message){
-      setPublishError(error.message)
-    } else if(error?.data?.message) {
-      setPublishError(error.data.message)
-    }else {
+  }, [postData]);
+
+  useEffect(() => {
+    if (error?.message) {
+      setPublishError(error.message);
+    } else if (error?.data?.message) {
+      setPublishError(error.data.message);
+    } else {
       return;
     }
-  },[error])
+  }, [error]);
 
   const handleImageInputChange = (e) => {
     const file = e.target.files[0];
@@ -51,7 +69,7 @@ export default function UpdatePost() {
       if (!file.type.startsWith("image/")) {
         return setLocalError("file is not an image");
       }
-      setImage(file)
+      setImage(file);
       setLocalError(null);
     }
   };
@@ -104,26 +122,25 @@ export default function UpdatePost() {
       e.preventDefault();
       const { title, content } = formData;
       if (!title || !content || title.trim() === "" || content.trim() === "") {
-        return
+        return;
       }
       const updatedData = {
-        title:formData.title,
+        title: formData.title,
         content: formData.content,
         category: formData.category,
         image: formData.image,
-      }
-      // console.log(updatedData)
-      await updatePost({postId, updatedData});
+      };
+      await updatePost({ postId, updatedData });
     } catch (error) {
       setPublishError(error.message || "Publish failed!");
     }
   };
-
+  console.log(formData);
   return (
     <section>
       <h1 className="text-center text-4xl font-semibold mt-7">Update Post</h1>
-      <form  className="flex flex-col gap-4 mt-7" onSubmit={handleUpdatePost}>
-      <div className="flex flex-col gap-4 md:flex-row">
+      <form className="flex flex-col gap-4 mt-7" onSubmit={handleUpdatePost}>
+        <div className="flex flex-col gap-4 md:flex-row">
           <TextInput
             placeholder="Title"
             required
@@ -136,10 +153,10 @@ export default function UpdatePost() {
           />
           <Select
             id="category"
+            value={formData.category}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
-            value={formData.category}
           >
             <option value="uncategorized">Select Category</option>
             <option value="reactjs">React JS</option>
@@ -149,13 +166,13 @@ export default function UpdatePost() {
         </div>
 
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
-        <FileInput
+          <FileInput
             accept="image/*"
             className="flex-1"
             onChange={handleImageInputChange}
           />
 
-{isImageUploading ? (
+          {isImageUploading ? (
             <Button>
               <Spinner aria-label="Spinner button uploading" size="sm" />
               <span className="pl-3">Uploading...</span>
@@ -173,9 +190,7 @@ export default function UpdatePost() {
           )}
         </div>
 
-        {localError && (
-          <Alert color="failure">{localError}</Alert>
-        )}
+        {localError && <Alert color="failure">{localError}</Alert>}
         {isImageUploading && (
           <Progress
             progress={imageUploadProgress}
@@ -187,7 +202,7 @@ export default function UpdatePost() {
             labelText
           />
         )}
-{formData.image && (
+        {formData.image && (
           <div className="flex justify-center">
             <img
               src={formData.image}
@@ -201,24 +216,26 @@ export default function UpdatePost() {
           placeholder="Write something...."
           className="h-72 mb-12"
           required
-          onChange={(value) => setFormData({ ...formData, content: value })}
-          value={formData.content}
+          value={formData.content || ""}
+          onChange={(value) =>{
+            setFormData((prev) => ({ ...prev, content: value }))
+          }
+          }
         />
-         {publishError && <Alert color="failure">{publishError}</Alert>}
+        {publishError && <Alert color="failure">{publishError}</Alert>}
 
-         <Button type="submit" gradientDuoTone="greenToBlue">
-          {
-            isLoading ? (
+        <Button type="submit" gradientDuoTone="greenToBlue">
+          {isLoading ? (
             <>
-            <Spinner aria-label="Spinner button uploading" size="sm" /><span>Uploading</span>
+              <Spinner aria-label="Spinner button uploading" size="sm" />
+              <span>Uploading</span>
             </>
-            ) : "Upload"
-        }
+          ) : (
+            "Upload"
+          )}
         </Button>
       </form>
-      {isSuccess && (
-        <Navigate to={`/post/${data.post.slug}`}/>
-      )}
-      </section>
-  )
+      {isSuccess && <Navigate to={`/post/${data.post.slug}`} />}
+    </section>
+  );
 }

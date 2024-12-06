@@ -198,7 +198,7 @@ export default function CreatePost() {
         </Button>
       </form>
       {isSuccess && (
-        <Navigate to={`post/${data.post.slug}`}/>
+        <Navigate to={`/post/${data.post.slug}`}/>
       )}
     </section>
   );
