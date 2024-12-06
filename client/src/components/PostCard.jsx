@@ -12,9 +12,11 @@ export default function PostCard({post}) {
       <div className="font-bold text-xl mb-2 line-clamp-2">{post.title}</div>
     </div>
     <div className="px-6 pt-4 pb-2">
-      <Button color="indigo" as={Link} to={`/post/${post.slug}`}  className='flex'>
+      <Link to={`/post/${post.slug}`}>
+      <Button gradientDuoTone='greenToBlue'  className='flex ml-auto'>
         Read More<HiArrowRight className='ml-2 self-center' />
       </Button>
+      </Link>
     </div>
   </div>
   )
