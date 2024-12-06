@@ -33,7 +33,15 @@ const commentApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Comments"],
         }),
+        deleteComment: builder.mutation({
+            query: (commentId) => ({
+                url: `${COMMENT_URL}/deleteComment/${commentId}`,
+                method: "DELETE",
+                credentials: "include",
+            }),
+            invalidatesTags: ["Comments"],
+        })
     })
 })
 
-export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation, useEditCommentMutation } = commentApi;
+export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation, useEditCommentMutation, useDeleteCommentMutation } = commentApi;

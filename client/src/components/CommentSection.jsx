@@ -107,7 +107,7 @@ export default function CommentSection({ postId }) {
             </div>
           )}
           {isCommentsError && (
-            <Alert color="failure">{commentsError.data.message}</Alert>
+            <Alert color="failure">{commentsError?.data?.message || commentsError.error}</Alert>
           )}
         </div>
       ) : (

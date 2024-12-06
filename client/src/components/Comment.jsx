@@ -4,8 +4,9 @@ import {
   useGetUserQuery,
 } from "../app/service/userApiSlice";
 import { BiSolidLike } from "react-icons/bi";
-import { useEditCommentMutation, useLikeCommentMutation } from "../app/service/commentApiSlice";
-import { Button, Textarea } from "flowbite-react";
+import { useDeleteCommentMutation, useEditCommentMutation, useLikeCommentMutation } from "../app/service/commentApiSlice";
+import { Button, Modal, Textarea } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function Comment({ comment }) {
   const { data: commentUser } = useGetUserByIdQuery(comment.userId);
@@ -14,6 +15,8 @@ export default function Comment({ comment }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content||"");
   const [editComment]=useEditCommentMutation();
+  const [deleteComment]=useDeleteCommentMutation();
+  const [openModal, setOpenModal] = useState(false);
 
   const handleLikeComment = async () => {
     await likeComment(comment._id);
@@ -27,6 +30,10 @@ export default function Comment({ comment }) {
     await editComment(data);
     setIsEditing(false);
   }
+  const handleDeleteComment = async () => {
+    setOpenModal(false);
+    await deleteComment(comment._id);
+  };
   return (
     <>
       {comment && commentUser && (
@@ -79,7 +86,8 @@ export default function Comment({ comment }) {
                 {(user._id === commentUser._id || user.isAdmin) && (
                   <button
                     type="button"
-                    className=" text-slate-400 hover:underline hover:text-slate-50"
+                    className=" text-slate-400 hover:underline hover:text-red-500"
+                    onClick={() => setOpenModal(true)}
                   >
                     Delete
                   </button>
@@ -87,9 +95,28 @@ export default function Comment({ comment }) {
               </div>
             </div>
           </div>
+          
         </div>
         )}
-        
+        <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this comment?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleDeleteComment}>
+                {"Yes, I'm sure"}
+              </Button>
+              <Button color="gray" onClick={() => setOpenModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
         </>
         
       )}
