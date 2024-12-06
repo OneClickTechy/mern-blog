@@ -54,3 +54,22 @@ export const likeComment = async (req, res, next) => {
     await comment.save();
         res.status(200).json({message: "Comment liked successfully", comment});
 }
+
+export const editComment = async (req, res, next) => {
+   try {
+     const {commentId} = req.params;
+     const {content} = req.body;
+     const comment = await Comment.findById(commentId);
+     if(!comment){
+         return next(errorHandler(404, "Comment not found"));
+     }
+     if(comment.userId !== String(req.user._id)){
+        return next(errorHandler(403, "You can only edit your own comment"));
+     }
+     comment.content = content;
+     await comment.save();
+     res.status(200).json({message: "Comment edited successfully", comment});
+   } catch (error) {
+        next(error)
+   }
+}

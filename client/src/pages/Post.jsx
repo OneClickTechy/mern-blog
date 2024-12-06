@@ -18,13 +18,13 @@ export default function Post() {
             setPost(data.posts[0])
         }
     },[data])
-    console.log(post);
+    console.log(error);
     if(isLoading){
         return <LoadingPage /> 
     }
     if(isError){
         return (
-            <div>{error.data.message}</div>
+            <div>{error?.data?.message||error.error}</div>
         )
     }
     if(Object.keys(post).length){

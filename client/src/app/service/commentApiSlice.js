@@ -23,8 +23,17 @@ const commentApi = apiSlice.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: ["Comments"],
-        })
+        }),
+        editComment: builder.mutation({
+            query: (data) => ({
+                url: `${COMMENT_URL}/editComment/${data.commentId}`,
+                method: "PUT",
+                body: {content:data.content},
+                credentials: "include",
+            }),
+            invalidatesTags: ["Comments"],
+        }),
     })
 })
 
-export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation } = commentApi;
+export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation, useEditCommentMutation } = commentApi;

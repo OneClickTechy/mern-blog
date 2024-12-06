@@ -91,8 +91,8 @@ export default function CommentSection({ postId }) {
                 <p className="text-center text-gray-500">No comments yet</p>
               </div>
             ) : (
-              <section>
-                <h3 className="text-2xl">Comments:</h3>
+              <section className="mt-8">
+                <h3 className="text-xl flex items-center">Comments:<span className="border px-2 py-1 rounded-md ml-2">{comments.length}</span></h3>
                 <div className="my-8 flex flex-col gap-2 ">
                 {comments.map((comment) => (
                   <Comment key={comment._id} comment={comment} />
