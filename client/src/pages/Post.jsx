@@ -44,7 +44,7 @@ export default function Post() {
                     <CallToAction />
                 </div>
                 <CommentSection postId={post._id} />
-                <RecentPosts />
+                <RecentPosts limit={3}/>
             </main>
         )
     }

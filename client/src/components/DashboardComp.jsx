@@ -33,7 +33,7 @@ export default function DashboardComp() {
 
   return (
     <div className="flex-1 p-4 max-w-6xl sm:h-screen overflow-y-scroll scrollbar-none mb-8">
-      <div className="flex gap-2 sm:justify-between sm:p-4 flex-col sm:flex-row flex-wrap ">
+      <div className="flex gap-2 sm:justify-center sm:p-4 flex-col sm:flex-row flex-wrap ">
         <OverviewCard
           title={"TOTAL USERS"}
           totalCount={usersData?.totalUsers}
