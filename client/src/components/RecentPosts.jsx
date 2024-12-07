@@ -13,7 +13,7 @@ export default function RecentPosts({limit}) {
   }
 
   return (
-    <section className='mb-8 max-w-6xl mx-auto'>
+    <section className='mb-8 max-w-6xl mx-auto p-2'>
       <h1 className="text-2xl font-semibold">Recent Posts</h1>
       <div className="flex flex-wrap justify-center gap-4 mt-8">
         {data && data?.posts?.map((post) => (
