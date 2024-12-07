@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import DashSidebar from '../components/DashSidebar';
 import DashProfile from '../components/DashProfile';
@@ -8,6 +8,7 @@ import DashPosts from '../components/DashPosts';
 import { useGetUserQuery } from '../app/service/userApiSlice';
 import DashUsers from '../components/DashUsers';
 import DashComments from '../components/DashComments';
+import DashboardComp from '../components/DashboardComp';
 
 export default function Dashboard() {
   const {data:user}= useGetUserQuery();
@@ -20,13 +21,15 @@ export default function Dashboard() {
     if(tabFromURL){
       dispatch(setTab(tabFromURL));
     }
-  },[location.search])
+  },[location.search, dispatch])
   return (
     <div className='min-h-screen flex flex-col sm:flex-row'>
       {/* Sidebar */}
       <div className="md:w-56">
         <DashSidebar />
       </div>
+      {/* Dashboard overview */}
+        {tab ==="dash" && user.isAdmin && <DashboardComp  user={user}/>}
       {/* Profile */}
         {tab === "profile" && <DashProfile /> }
       {/* Posts */}

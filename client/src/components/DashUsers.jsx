@@ -48,7 +48,7 @@ export default function DashUsers({ user }) {
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.isAdmin && users.length>0 ? (
         <>
-          <Table className="overflow-x-scroll">
+          <Table className="overflow-x-scroll" hoverable>
             <Table.Head>
               <Table.HeadCell>Date Created</Table.HeadCell>
               <Table.HeadCell>User Name</Table.HeadCell>

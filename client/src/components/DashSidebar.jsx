@@ -7,6 +7,7 @@ import { getTab } from "../app/features/dashboardSlice";
 import { Link } from "react-router-dom";
 import { useSignoutMutation } from "../app/service/authApiSlice";
 import { useGetUserQuery } from "../app/service/userApiSlice";
+import { FaChartPie } from "react-icons/fa";
 
 export default function DashSidebar() {
   const tab = useSelector(getTab);
@@ -19,6 +20,20 @@ export default function DashSidebar() {
     <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col sm:gap-2">
+        {user.isAdmin && (
+            <>
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item
+                active={tab === "dash"}
+                icon={FaChartPie}
+                as="div"
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+            </>
+            )
+        }
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}

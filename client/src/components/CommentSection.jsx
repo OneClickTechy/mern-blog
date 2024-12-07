@@ -76,6 +76,7 @@ export default function CommentSection({ postId }) {
                 )}
               </Button>
             </div>
+          </form>
             {isError && <Alert color="failure">{error.data.message}</Alert>}
             {isSuccess &&  <Toast>
         <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
@@ -84,7 +85,6 @@ export default function CommentSection({ postId }) {
         <div className="ml-3 text-sm font-normal">{data.message}</div>
         <Toast.Toggle />
       </Toast>}
-          </form>
           {isCommentsSuccess &&
             (comments.length === 0 ? (
               <div>

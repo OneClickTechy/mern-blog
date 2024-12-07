@@ -16,7 +16,6 @@ export default function DashPosts({ user }) {
     startIndex,
     limit: 9,
     sort: "desc",
-    userId: user?._id,
   });
   const [deletePost, {}] = useDeletePostMutation();
   const [openModal, setOpenModal] = useState(false);
@@ -28,7 +27,6 @@ export default function DashPosts({ user }) {
       startIndex: newStartIndex,
       limit: 9,
       sort: "desc",
-      userId: user?._id,
     });
   };
   const canShowMore = Boolean(posts?.length < data?.totalPosts);
@@ -60,7 +58,7 @@ export default function DashPosts({ user }) {
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.isAdmin && posts.length > 0 ? (
         <>
-          <Table className="overflow-x-scroll">
+          <Table className="overflow-x-scroll" hoverable>
             <Table.Head>
               <Table.HeadCell>Date modified</Table.HeadCell>
               <Table.HeadCell>Post Title</Table.HeadCell>

@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Button, Modal, Table } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useDeleteCommentMutation, useGetAllCommentsQuery } from "../app/service/commentApiSlice";
-import {FaCheck, FaTimes} from "react-icons/fa"
 import LoadingPage from "./LoadingPage";
 
 export default function DashComments({ user }) {
@@ -15,7 +14,6 @@ export default function DashComments({ user }) {
     sort:"desc",
     }
   );
-  console.log(data)
   
   const [deleteComment]= useDeleteCommentMutation()
   const [openModal, setOpenModal] = useState(false);
@@ -49,7 +47,7 @@ export default function DashComments({ user }) {
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {user?.isAdmin && comments.length>0 ? (
         <>
-          <Table className="overflow-x-scroll">
+          <Table className="overflow-x-scroll" hoverable>
             <Table.Head>
               <Table.HeadCell>Date Modified</Table.HeadCell>
               <Table.HeadCell>Comment</Table.HeadCell>
@@ -107,7 +105,7 @@ export default function DashComments({ user }) {
             </h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={()=>
-               handleDeleteComment()
+              handleDeleteComment()
               }>
                {"Yes, I'm sure"}
               </Button>
