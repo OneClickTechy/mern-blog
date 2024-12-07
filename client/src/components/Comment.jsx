@@ -54,7 +54,7 @@ export default function Comment({ comment }) {
               className="min-w-10 min-h-10 w-10 h-10 object-cover bg-gray-300 rounded-full"
             />
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-gray-700 dark:text-gray-500">
             <span>@{commentUser.username}</span>
             <span>{comment.content}</span>
 
@@ -65,7 +65,7 @@ export default function Comment({ comment }) {
                   size={20}
                 />
               </button>
-              <p className="text-gray-500">
+              <p className="">
                 {comment && comment.numberOfLikes > 0 && comment.numberOfLikes}
                 {comment && comment.numberOfLikes > 0
                   ? comment.numberOfLikes === 1
@@ -77,7 +77,7 @@ export default function Comment({ comment }) {
                 {user._id === commentUser._id && (
                   <button
                     type="button"
-                    className=" text-slate-400 hover:underline hover:text-slate-50"
+                    className=" text-slate-600 dark:text-slate-500 hover:underline hover:text-slate-50 dark:hover:text-slate-50"
                     onClick={() => setIsEditing(true)}
                   >
                     Edit
@@ -86,7 +86,7 @@ export default function Comment({ comment }) {
                 {(user._id === commentUser._id || user.isAdmin) && (
                   <button
                     type="button"
-                    className=" text-slate-400 hover:underline hover:text-red-500"
+                    className=" text-slate-600 dark:text-slate-500 hover:underline hover:text-red-500 dark:hover:text-red-400"
                     onClick={() => setOpenModal(true)}
                   >
                     Delete

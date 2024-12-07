@@ -30,7 +30,7 @@ export default function Post() {
     }
     if(Object.keys(post).length){
         return (
-            <main className='max-w-4xl mx-auto p-2 lg:p-0'>
+            <main className='max-w-6xl mx-auto p-2 lg:p-0'>
                 <h1 className='text-4xl text-center font-bold'>{post.title}</h1>
                 <Button onClick={() => {navigate(`/search?category=${post && post.category}`)}} color='gray' className='mx-auto my-8' >{post.category}</Button>
                 <img src={post.image} alt={post.title} className='mx-auto bg-gray-500 w-full max-w-md' />

@@ -37,8 +37,8 @@ export default function CommentSection({ postId }) {
   return (
     <div>
       {user ? (
-        <div className="max-w-2xl mx-auto my-8">
-          <div className="flex flex-nowrap gap-2 items-center text-gray-500 my-4  w-full max-w-2xl mx-auto text-sm">
+        <div className="max-w-4xl mx-auto my-8">
+          <div className="flex flex-nowrap gap-2 items-center text-gray-800 dark:text-gray-200 my-4  w-full max-w-2xl mx-auto text-sm">
             <p className="whitespace-nowrap">Signed In as :</p>
             <img
               src={user.profilePicture}

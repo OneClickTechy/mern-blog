@@ -13,9 +13,9 @@ export default function RecentPosts() {
   }
 
   return (
-    <section className='mb-8'>
+    <section className='mb-8 max-w-6xl mx-auto'>
       <h1 className="text-2xl font-semibold">Recent Posts</h1>
-      <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+      <div className="flex flex-wrap xl:flex-nowrap ` justify-center gap-4 mt-8">
         {data && data?.posts?.map((post) => (
           <PostCard post={post} />
         ))}
