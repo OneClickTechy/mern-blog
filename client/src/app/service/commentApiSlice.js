@@ -40,8 +40,28 @@ const commentApi = apiSlice.injectEndpoints({
                 credentials: "include",
             }),
             invalidatesTags: ["Comments"],
+        }),
+        getAllComments: builder.query({
+            query: ({startIndex, limit, sort}) => {
+                const params = new URLSearchParams();
+                if(startIndex !== undefined && startIndex !== null) {
+                    params.set("startIndex", String(startIndex));
+                }
+                if(limit !== undefined && limit !== null) {
+                    params.set("limit", String(limit));
+                }
+                if(sort !== undefined && sort !== null) {
+                    params.set("sort", sort);
+                }
+                return {
+                    url: `${COMMENT_URL}?${params.toString()}`,
+                    credentials: "include",
+                }
+            },
+            providesTags: ["Comments"],
         })
+        
     })
 })
 
-export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation, useEditCommentMutation, useDeleteCommentMutation } = commentApi;
+export const { useCreateCommentMutation, useGetCommentsQuery, useLikeCommentMutation, useEditCommentMutation, useDeleteCommentMutation, useGetAllCommentsQuery } = commentApi;

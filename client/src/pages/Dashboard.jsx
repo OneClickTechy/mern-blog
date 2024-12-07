@@ -7,6 +7,7 @@ import { getTab, setTab } from '../app/features/dashboardSlice';
 import DashPosts from '../components/DashPosts';
 import { useGetUserQuery } from '../app/service/userApiSlice';
 import DashUsers from '../components/DashUsers';
+import DashComments from '../components/DashComments';
 
 export default function Dashboard() {
   const {data:user}= useGetUserQuery();
@@ -32,6 +33,8 @@ export default function Dashboard() {
         {tab === "posts" && user.isAdmin && <DashPosts user={user}/>}
       {/* Users */}
         {tab === "users" && user.isAdmin && <DashUsers user={user}/>}
+      {/* Comments */}
+        {tab === "comments" && user.isAdmin && <DashComments user={user}/>}
     </div>
   )
 }

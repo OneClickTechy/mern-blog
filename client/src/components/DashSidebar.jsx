@@ -1,7 +1,7 @@
-import React from "react";
 import { Sidebar } from "flowbite-react";
 import { HiDocumentText, HiUser, HiUserGroup } from "react-icons/hi";
 import { HiMiniArrowLeftStartOnRectangle } from "react-icons/hi2";
+import { BiSolidComment } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { getTab } from "../app/features/dashboardSlice";
 import { Link } from "react-router-dom";
@@ -48,6 +48,15 @@ export default function DashSidebar() {
                 as="div"
               >
                 Users
+              </Sidebar.Item>
+            </Link>
+            <Link to="/dashboard?tab=comments">
+              <Sidebar.Item
+                active={tab === "comments"}
+                icon={BiSolidComment}
+                as="div"
+              >
+                Comments
               </Sidebar.Item>
             </Link>
             </>
