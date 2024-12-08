@@ -35,8 +35,9 @@ export default function Search() {
   
 
   const onPageChange = (page) => {
-    setCurrentPage(page)
-    setStartIndex((page-1)*9)
+    setCurrentPage(page);
+    setStartIndex((page-1)*9);
+    window.scrollTo(0,0)
   };
   const totalPages = data?.totalPosts ? Math.ceil(data.totalPosts / 9) : 0;
 
