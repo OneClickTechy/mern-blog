@@ -15,7 +15,6 @@ export default function DashUsers({ user }) {
     sort:"desc",
     }
   );
-  console.log(data,error)
   const [deleteUser]= useDeleteUserMutation()
   const [openModal, setOpenModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);

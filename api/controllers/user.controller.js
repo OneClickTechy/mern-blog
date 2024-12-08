@@ -83,7 +83,6 @@ export const deleteUser = async (req, res, next) => {
   try {
     const { _id: userId, isAdmin } = req.user;
     const {id}=req.params;
-    console.log(id, userId);
     if(!isAdmin && id!==userId.toString()){
         return next(errorHandler(400, "You can only delete your own account"));
     }

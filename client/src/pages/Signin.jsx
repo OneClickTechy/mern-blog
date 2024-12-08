@@ -12,7 +12,6 @@ export default function SignIn() {
   });
   const [signin, { isLoading, isSuccess, isError, error }] =
     useSigninMutation();
-  console.log(error)
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });

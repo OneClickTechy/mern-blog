@@ -21,7 +21,6 @@ export default function CommentSection({ postId }) {
     isError: isCommentsError,
     error: commentsError,
   } = useGetCommentsQuery(postId);
-  console.log(comments, commentsError);
   const canComment = Boolean(comment.trim() !== "");
   const handleSubmitComment = async (e) => {
     e.preventDefault();

@@ -13,7 +13,6 @@ export default function OAuth() {
         provider.setCustomParameters({prompt: 'select_account'})
         try {
             const resultFromGoogle = await signInWithPopup(auth, provider);
-            console.log(resultFromGoogle)
             const userInfo = {
                 name:resultFromGoogle.user.displayName,
                 email:resultFromGoogle.user.email,

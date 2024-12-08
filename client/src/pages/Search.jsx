@@ -27,7 +27,6 @@ export default function Search() {
     sort: searchParams.get("sort") || "desc",
     category: searchParams.get("category") || "",
   });
-  console.log(data)
   let posts;
   if(data){
     posts = data.posts;

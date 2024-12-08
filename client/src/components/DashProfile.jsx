@@ -101,7 +101,6 @@ export default function DashProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!canUpdate) {
-      console.log("can't upload");
       return;
     }
     try {
@@ -111,8 +110,6 @@ export default function DashProfile() {
       setimageFileUrl(null);
       setUploadError(null);
       setFormData({});
-
-      console.log("Profile updated successfully!");
     } catch (error) {
       console.error(error);
     }
