@@ -1,6 +1,6 @@
 import { Footer } from 'flowbite-react'
 import { Link } from 'react-router-dom'
-import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
+import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 export default function Footercom() {
   return (
      <Footer container className='border border-t-4 border-teal-500'>
@@ -16,8 +16,8 @@ export default function Footercom() {
            <div>
              <Footer.Title title="about" />
              <Footer.LinkGroup col>
-               <Footer.Link href="#">Flowbite</Footer.Link>
-               <Footer.Link href="#">Tailwind CSS</Footer.Link>
+               <Footer.Link href="#">Company</Footer.Link>
+               <Footer.Link href="#">Office</Footer.Link>
              </Footer.LinkGroup>
            </div>
            <div>
@@ -44,7 +44,7 @@ export default function Footercom() {
            <Footer.Icon href="#" icon={BsInstagram} />
            <Footer.Icon href="#" icon={BsTwitter} />
            <Footer.Icon href="#" icon={BsGithub} />
-           <Footer.Icon href="#" icon={BsDribbble} />
+           <Footer.Icon href="#" icon={BsYoutube} />
          </div>
        </div>
      </div>

@@ -9,6 +9,7 @@ export default function PostCard({post}) {
     <div className="px-6 py-4">
       <div className="font-bold text-xl mb-2 line-clamp-2">{post.title}</div>
     </div>
+    <Button className='ml-2'>{post.category}</Button>
     <div className="px-6 pt-4 pb-2">
       <Link to={`/post/${post.slug}`}>
       <Button gradientDuoTone='greenToBlue'  className='flex ml-auto'>
