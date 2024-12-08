@@ -7,8 +7,6 @@ export const generateToken = (res, userId, isAdmin) => {
     });
     res.cookie("access_token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000, 
     });
     return token;
