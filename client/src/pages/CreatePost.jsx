@@ -8,7 +8,7 @@ import {
   Spinner,
   TextInput,
 } from "flowbite-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { useCreatePostMutation } from "../app/service/postApiSlice";
 import {Navigate} from "react-router-dom"

@@ -22,7 +22,7 @@ const ToggleTheme = () => {
 
   return (
     <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={handleToggleTheme} >
-    {theme==='dark' ? <FaMoon /> : <FaSun />}
+    {theme==='dark' ? <FaSun /> : <FaMoon />}
 </Button>
   );
 };

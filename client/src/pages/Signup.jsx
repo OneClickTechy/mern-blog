@@ -1,5 +1,5 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import OAuth from '../components/OAuth';
 import { useSignupMutation } from '../app/service/authApiSlice';
@@ -30,7 +30,7 @@ export default function Signup() {
 <div className='p-2 flex flex-col gap-4 sm:flex-row sm:items-center max-w-3xl mx-auto'>
     <div className='flex-1'>
     <Link to="/" className='text-4xl font-bold dark:text-white'>
-        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 rounded-lg text-white'>Mr. JP'S</span>
+        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 rounded-lg text-white'>Mr. JP&apos;S</span>
         Blog
         </Link>
         <p className="text-sm mt-4 text-gray-500">This is a demo project. You can sign up with your email and password or with Google.</p>
@@ -39,7 +39,7 @@ export default function Signup() {
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div>
           <Label htmlFor="username" value="Your username" />
-          <TextInput id="username" type="text" placeholder="Your username" onChange={handleChange} value={formData.username} />
+          <TextInput id="username" type="text" placeholder="Your username" addon="@" onChange={handleChange} value={formData.username} />
         </div>
         <div>
           <Label htmlFor="email" value="Your email" />

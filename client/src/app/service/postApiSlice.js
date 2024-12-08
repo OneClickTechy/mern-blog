@@ -43,25 +43,40 @@ export const postApi = apiSlice.injectEndpoints({
     }),
     getPosts: builder.query({
       query: ({
-        startIndex = 0,
-        limit = 9,
-        sort = "desc",
+        startIndex,
+        limit,
+        sort,
         userId,
         category,
         slug,
         postId,
         searchTerm,
       }) => {
-        const params = new URLSearchParams({
-          startIndex: String(startIndex),
-          limit: String(limit),
-          sort,
-          ...(userId && { userId }),
-          ...(category && { category }),
-          ...(slug && { slug }),
-          ...(postId && { postId }),
-          ...(searchTerm && { searchTerm }),
-        });
+        const params = new URLSearchParams();
+        if(startIndex !== undefined && startIndex !== null && startIndex !== "") {
+          params.set("startIndex", String(startIndex));
+      }
+      if(limit !== undefined && limit !== null && limit !== "") {
+          params.set("limit", String(limit));
+      }
+      if(sort !== undefined && sort !== null && sort !== "") {
+          params.set("sort", sort);
+      }
+      if(userId !== undefined && userId !== null &&userId !== "") {
+          params.set("userId", userId);
+      }
+      if(category !== undefined && category !== null && category !== "") {
+          params.set("category", category);
+      }
+      if(slug !== undefined && slug !== null && slug !== "") {
+          params.set("slug", slug);
+      }
+      if(postId !== undefined && postId !== null && postId !== "") {
+          params.set("postId", postId);
+      }
+      if(searchTerm !== undefined && searchTerm !== null && searchTerm !== "") {
+          params.set("searchTerm", searchTerm);
+      }
         return {
           url: `${POST_URL}/getposts?${params.toString()}`,
           method: "GET",
