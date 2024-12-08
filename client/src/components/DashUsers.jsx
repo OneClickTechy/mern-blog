@@ -77,10 +77,8 @@ export default function DashUsers({ user }) {
                         alt={user.username}
                       />
                     </Table.Cell>
-                   {/* eslint-disable-next-line react/prop-types */}
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>
-                   {/* eslint-disable-next-line react/prop-types */}
                       {user.isAdmin ? (
                         <FaCheck className="text-green-500" />
                     ):
@@ -90,7 +88,6 @@ export default function DashUsers({ user }) {
                     </Table.Cell>
                     <Table.Cell className="font-medium text-red-500 hover:underline cursor-pointer" onClick={() =>{
                       setOpenModal(true)
-                      // eslint-disable-next-line react/prop-types
                       setUserToDelete(user._id)
                     }}>Delete</Table.Cell>
                    

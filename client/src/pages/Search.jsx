@@ -1,78 +1,58 @@
 import { Button, Label, Pagination, Select, TextInput } from "flowbite-react";
-import { useGetPostsQuery } from "../app/service/postApiSlice";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
-import LoadingPage from "../components/LoadingPage";
+import { useGetPostsQuery } from "../app/service/postApiSlice";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Search() {
-  const location = useLocation();
+  const searchParams = new URLSearchParams(window.location.search);
   const navigate = useNavigate();
-
-  const [query, setQuery] = useState({
-    searchTerm: "",
-    sort: "desc",
-    category: "",
-    limit: 9,
-    startIndex: 0,
-  });
+  const [startIndex, setStartIndex]=useState(0);
+  const [searchData, setSearchData]=useState({
+    searchTerm: searchParams.get("searchTerm") || "",
+    sort: searchParams.get("sort") || "desc",
+    category: searchParams.get("category") || "",
+  })
   const [currentPage, setCurrentPage] = useState(1);
-
-  const onPageChange = (page) => {
-    setQuery({ ...query, startIndex: (page - 1) * 9 });
-    setCurrentPage(page);
-  };
-
-  const { searchTerm, sort, category, limit, startIndex } = query;
-  const { data, isSuccess, isLoading, isError, error } = useGetPostsQuery({
-    searchTerm,
-    sort,
-    category,
-    limit,
+  const handleChange = (e) => {
+    setSearchData({
+      ...searchData,
+      [e.target.id]: e.target.value,
+    })
+  }
+  const {data}=useGetPostsQuery({
     startIndex,
+    limit:9,
+    searchTerm: searchParams.get("searchTerm") || "",
+    sort: searchParams.get("sort") || "desc",
+    category: searchParams.get("category") || "",
   });
-  let posts = [];
-  if (data) {
+  console.log(data)
+  let posts;
+  if(data){
     posts = data.posts;
   }
-  useEffect(() => {
-    const URLParams = new URLSearchParams(location.search);
-    setQuery({
-      ...query,
-      searchTerm: URLParams.get("searchTerm") || "",
-      sort: URLParams.get("sort") || "desc",
-      category: URLParams.get("category") || "",
-    });
-  }, [location.search]);
+  
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setQuery({
-      ...query,
-      [id]: value,
-    });
+  const onPageChange = (page) => {
+    setCurrentPage(page)
+    setStartIndex((page-1)*9)
   };
+  const totalPages = data?.totalPosts ? Math.ceil(data.totalPosts / 9) : 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const URLParams = new URLSearchParams();
-    URLParams.set("searchTerm", searchTerm || "");
-    URLParams.set("sort", sort || "desc");
-    URLParams.set("category", category || "");
-    const queryString = URLParams.toString();
-    navigate(`/search?${queryString}`);
-  };
-  const totalPages = Math.ceil(data?.totalPosts / query.limit) || 0;
-  
-  if(isLoading){
-    return <LoadingPage />
-  }
-  if(isError){
-    return <div>{error?.data?.message || error?.error || "something went wrong"}</div>
+    setCurrentPage(1)
+    setStartIndex(0);
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("searchTerm", searchData.searchTerm);
+    searchParams.set("sort", searchData.sort);
+    searchParams.set("category", searchData.category);
+    const searchParamsQuery = searchParams.toString();
+    navigate(`/search?${searchParamsQuery}`)
   }
   return (
     <>
-      {isSuccess && (
         <div className="flex flex-col sm:flex-row divide-gray-500 dark:divide-gray-700 divide-y sm:divide-y-0 sm:divide-x gap-2">
           <form className="min-w-72 flex flex-col gap-4 p-2" onSubmit={handleSubmit}>
             <div className="flex items-center gap-4">
@@ -85,7 +65,7 @@ export default function Search() {
                 placeholder="search..."
                 id="searchTerm"
                 className="flex-1"
-                value={searchTerm}
+                value={searchData.searchTerm}
                 onChange={handleChange}
               />
             </div>
@@ -98,7 +78,7 @@ export default function Search() {
               <Select
                 id="sort"
                 className="flex-1"
-                value={sort}
+                value={searchData.sort}
                 onChange={handleChange}
               >
                 <option value="desc">Newest</option>
@@ -114,7 +94,7 @@ export default function Search() {
               <Select
                 id="category"
                 className="flex-1"
-                value={category}
+                value={searchData.category}
                 onChange={handleChange}
               >
                 <option value="">All</option>
@@ -139,7 +119,7 @@ export default function Search() {
             </div>
             <div
               className={`flex overflow-x-auto sm:justify-center ${
-                totalPages < 2 && "hidden"
+                totalPages <=1 && "hidden"
               }`}
             >
               <Pagination
@@ -151,7 +131,6 @@ export default function Search() {
             </div>
           </section>
         </div>
-      )}
     </>
   );
 }

@@ -9,7 +9,6 @@ import {
 import Comment from "./Comment";3
 import {HiCheck} from "react-icons/hi"
 
-// eslint-disable-next-line react/prop-types
 export default function CommentSection({ postId }) {
   const { data: user } = useGetUserQuery();
   const [comment, setComment] = useState("");
