@@ -1,5 +1,4 @@
 import { Alert, Button } from 'flowbite-react'
-import React from 'react'
 import {AiFillGoogleCircle} from 'react-icons/ai'
 import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { app } from '../firebase'
@@ -8,7 +7,7 @@ import { Navigate } from 'react-router-dom'
 
 export default function OAuth() {
     const auth= getAuth(app);
-    const [googleAuth, {isSuccess, isError, isLoading, error}] = useGoogleAuthMutation();
+    const [googleAuth, {isSuccess, isError, error}] = useGoogleAuthMutation();
     const handleClick = async () => {
         const provider = new GoogleAuthProvider()
         provider.setCustomParameters({prompt: 'select_account'})

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import {
   useGetPostsByAdminQuery,
@@ -15,6 +15,7 @@ import {
 } from "flowbite-react";
 import axios from "axios";
 import ReactQuill from "react-quill";
+import LoadingPage from "../components/LoadingPage";
 
 export default function UpdatePost() {
   const { postId } = useParams();
@@ -25,7 +26,6 @@ export default function UpdatePost() {
   } = useGetPostsByAdminQuery({ postId });
   const [updatePost, { data, isLoading, error, isSuccess }] =
     useUpdatePostMutation();
-  const post = postData?.posts?.[0];
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -135,7 +135,12 @@ export default function UpdatePost() {
       setPublishError(error.message || "Publish failed!");
     }
   };
-  console.log(formData);
+  if(isPostFetching){
+    return <LoadingPage />
+  }
+  if(postError){
+    return <div>{postError?.data?.message||postError?.error || "Something went wrong"}</div>
+  }
   return (
     <section>
       <h1 className="text-center text-4xl font-semibold mt-7">Update Post</h1>

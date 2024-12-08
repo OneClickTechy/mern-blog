@@ -1,5 +1,4 @@
 import { Spinner } from 'flowbite-react'
-import React from 'react'
 
 export default function LoadingPage({content="Loading..., please wait"}) {
   return (

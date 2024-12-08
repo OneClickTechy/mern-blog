@@ -62,7 +62,7 @@ export default function Header() {
                    <span className="block truncate text-sm font-medium">{data.email}</span>
                  </Dropdown.Header>
                   {data.isAdmin && (
-                    <Link to="/dashboard">
+                    <Link to="/dashboard?tab=dash">
                       <Dropdown.Item>
                         Dashboard
                       </Dropdown.Item>

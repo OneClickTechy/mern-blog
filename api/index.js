@@ -6,7 +6,6 @@ import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 
 dotenv.config();
 
@@ -15,12 +14,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
-    credentials: true,
-  })
-);
+
 
 // Routes
 app.get("/", (req, res) => {

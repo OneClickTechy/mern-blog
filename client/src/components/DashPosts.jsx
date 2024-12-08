@@ -9,6 +9,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
 
+// eslint-disable-next-line react/prop-types
 export default function DashPosts({ user }) {
   const [startIndex, setStartIndex] = useState(0);
   const [posts, setPosts] = useState([]);
@@ -17,7 +18,7 @@ export default function DashPosts({ user }) {
     limit: 9,
     sort: "desc",
   });
-  const [deletePost, {}] = useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
   const [openModal, setOpenModal] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const handleShowMore = async () => {
@@ -56,6 +57,7 @@ export default function DashPosts({ user }) {
 
   return (
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
+      {/* eslint-disable-next-line react/prop-types */}
       {user?.isAdmin && posts.length > 0 ? (
         <>
           <Table className="overflow-x-scroll" hoverable>

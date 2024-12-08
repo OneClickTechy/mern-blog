@@ -1,10 +1,9 @@
-import React from 'react'
 import { useGetPostsQuery } from '../app/service/postApiSlice';
 import LoadingPage from './LoadingPage';
 import PostCard from './PostCard';
 
 export default function RecentPosts({limit}) {
-  const {data, isLoading, isError, error, refetch} = useGetPostsQuery({limit});
+  const {data, isLoading, isError, error} = useGetPostsQuery({limit});
   if(isLoading){
     return <LoadingPage />
   }

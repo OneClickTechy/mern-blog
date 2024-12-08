@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetUserQuery } from "../app/service/userApiSlice";
 import { Link } from "react-router-dom";
 import { Alert, Button, Spinner, Textarea, Toast } from "flowbite-react";
@@ -9,6 +9,7 @@ import {
 import Comment from "./Comment";3
 import {HiCheck} from "react-icons/hi"
 
+// eslint-disable-next-line react/prop-types
 export default function CommentSection({ postId }) {
   const { data: user } = useGetUserQuery();
   const [comment, setComment] = useState("");

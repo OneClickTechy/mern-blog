@@ -1,5 +1,4 @@
-import { Button, Card } from 'flowbite-react'
-import React from 'react'
+import { Button} from 'flowbite-react'
 import { HiArrowRight } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 

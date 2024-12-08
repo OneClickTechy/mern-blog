@@ -1,12 +1,12 @@
 import { HiDocumentText, HiUserGroup } from "react-icons/hi";
 import { useGetUsersQuery } from "../app/service/userApiSlice";
-import { FaArrowUp } from "react-icons/fa6";
 import OverviewCard from "./OverviewCard";
 import { useGetPostsByAdminQuery } from "../app/service/postApiSlice";
 import { useGetAllCommentsQuery } from "../app/service/commentApiSlice";
 import { BiSolidComment } from "react-icons/bi";
 import { Button, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 export default function DashboardComp() {
   const {
     data: usersData,
@@ -17,8 +17,8 @@ export default function DashboardComp() {
   const {
     data: postsData,
     isLoading: isPostsLoading,
-    isError: isPostError,
-    error: postError,
+    isError: isPostsError,
+    error: postsError,
   } = useGetPostsByAdminQuery({
     startIndex: 0,
     limit: 5,
@@ -31,6 +31,12 @@ export default function DashboardComp() {
     error: commentsError,
   } = useGetAllCommentsQuery({ startIndex: 0, limit: 5, sort: "desc" });
 
+  if(isUsersLoading || isPostsLoading || isCommentsLoading){
+    return <LoadingPage />
+  }
+  if(isUsersError || isPostsError || isCommentsError){
+    return <div>{usersError?.data?.message || postsError?.data?.message || commentsError?.data?.message || usersError?.error || postsError?.error || commentsError?.error || "Something went wrong"}</div>
+  }
   return (
     <div className="flex-1 p-4 max-w-6xl sm:h-screen overflow-y-scroll scrollbar-none mb-8">
       <div className="flex gap-2 sm:justify-center sm:p-4 flex-col sm:flex-row flex-wrap ">

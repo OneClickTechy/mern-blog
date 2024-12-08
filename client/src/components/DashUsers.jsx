@@ -16,7 +16,7 @@ export default function DashUsers({ user }) {
     }
   );
   console.log(data,error)
-  const [deleteUser, {}]= useDeleteUserMutation()
+  const [deleteUser]= useDeleteUserMutation()
   const [openModal, setOpenModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const handleShowMore = async () => {
@@ -70,14 +70,17 @@ export default function DashUsers({ user }) {
                     </Table.Cell>
                     <Table.Cell>{user.username}</Table.Cell>
                     <Table.Cell>
+                      
                       <img
                         src={user.profilePicture}
                         className="w-12 aspect-square object-cover bg-gray-500 rounded-full "
                         alt={user.username}
                       />
                     </Table.Cell>
+                   {/* eslint-disable-next-line react/prop-types */}
                     <Table.Cell>{user.email}</Table.Cell>
                     <Table.Cell>
+                   {/* eslint-disable-next-line react/prop-types */}
                       {user.isAdmin ? (
                         <FaCheck className="text-green-500" />
                     ):
@@ -87,6 +90,7 @@ export default function DashUsers({ user }) {
                     </Table.Cell>
                     <Table.Cell className="font-medium text-red-500 hover:underline cursor-pointer" onClick={() =>{
                       setOpenModal(true)
+                      // eslint-disable-next-line react/prop-types
                       setUserToDelete(user._id)
                     }}>Delete</Table.Cell>
                    
@@ -118,7 +122,7 @@ export default function DashUsers({ user }) {
               <Button color="failure" onClick={()=>
                handleDeleteUser()
               }>
-               {"Yes, I\'m sure"}
+               Yes, I&apos;m sure
               </Button>
               <Button color="gray" onClick={() => setOpenModal(false)}>
                 No, cancel

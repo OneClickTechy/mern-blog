@@ -1,5 +1,4 @@
 import { Footer } from 'flowbite-react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 export default function Footercom() {
@@ -9,7 +8,7 @@ export default function Footercom() {
        <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
          <div>
          <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 rounded-lg text-white'>Mr. JP'S</span>
+        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 rounded-lg text-white'>Mr. JP&apos;S</span>
         Blog
         </Link>
          </div>

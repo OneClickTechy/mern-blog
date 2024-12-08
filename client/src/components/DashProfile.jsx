@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import {
   useDeleteUserMutation,
@@ -16,7 +16,7 @@ export default function DashProfile() {
   const { data } = useGetUserQuery();
   const [updateProfile, { isLoading, isError, isSuccess }] =
     useUpdateUserMutation();
-  const [deleteUser, { isLoading: isDeleteLoading, isError: isDeleteError, isSuccess: isDeleteSuccess }] =
+  const [deleteUser, { isLoading: isDeleteLoading, isError: isDeleteError }] =
     useDeleteUserMutation();
   const [signout] = useSignoutMutation();
   const {data:AuthUser}= useGetUserQuery();
@@ -24,9 +24,6 @@ export default function DashProfile() {
   const [imageFile, setimageFile] = useState(null);
   const [imageFileUrl, setimageFileUrl] = useState(null);
   const [progress, setProgress] = useState(0);
-  const [uploadedUrl, setUploadedUrl] = useState("");
-  const [uploadStatus, setUploadStatus] = useState("");
-  const [isUploadSuccess, setIsUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   
@@ -61,8 +58,6 @@ export default function DashProfile() {
     try {
       setProgress(0);
       setUploadError(null);
-      setUploadStatus("Uploading...");
-      setIsUploadSuccess(false);
 
       const upload_preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
       const cloud_name = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -87,18 +82,13 @@ export default function DashProfile() {
       if (response.status !== 200 || !response.data.secure_url) {
         throw new Error("Failed to upload image");
       }
-      setIsUploadSuccess(true);
-      setUploadedUrl(response.data.secure_url);
       setFormData({
         ...formData,
         profilePicture: response.data.secure_url,
       });
       setimageFile(null);
-      setUploadStatus("Upload successful!");
     } catch (error) {
       console.error("Error uploading the image", error);
-      setUploadStatus(error.message || "Upload failed!");
-      setIsUploadSuccess(false);
       setimageFile(null);
       setimageFileUrl(null);
       setProgress(0); // Reset progress
@@ -115,13 +105,11 @@ export default function DashProfile() {
       return;
     }
     try {
-      setIsUploadSuccess(false); //reset
       await updateProfile(formData);
 
       setimageFile(null);
       setimageFileUrl(null);
       setUploadError(null);
-      setUploadedUrl("");
       setFormData({});
 
       console.log("Profile updated successfully!");
