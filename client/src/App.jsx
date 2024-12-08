@@ -13,6 +13,7 @@ import UpdatePost from "./pages/UpdatePost";
 import Post from "./pages/Post";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function App() {
   return (
@@ -21,6 +22,8 @@ export default function App() {
         <ScrollToTop />
         <Header />
         <Routes>
+          {/* Error Handle Route */}
+          <Route path="*" element={<ErrorPage />} />
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
