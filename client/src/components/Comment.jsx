@@ -49,17 +49,11 @@ export default function Comment({ comment }) {
         ):(
 <div className="flex gap-2  text-gray-300">
           <div>
-            {commentUser && commentUser.profilePicture ? (
+            
               <img
-                src={commentUser.profilePicture}
+                src={commentUser?.profilePicture||"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                 className="min-w-10 min-h-10 w-10 h-10 object-cover bg-gray-300 rounded-full"
               />
-            ):(
-              <img
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                className="min-w-10 min-h-10 w-10 h-10 object-cover bg-gray-300 rounded-full"
-              />
-            )}
           </div>
           <div className="flex flex-col gap-2 text-gray-700 dark:text-gray-500">
             <span>@{commentUser?.username||"Unknown"} </span>
