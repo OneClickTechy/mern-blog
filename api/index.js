@@ -7,6 +7,7 @@ import postRoutes from "./routes/post.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(cors());
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));

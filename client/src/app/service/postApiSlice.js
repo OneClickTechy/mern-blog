@@ -34,7 +34,7 @@ export const postApi = apiSlice.injectEndpoints({
           ...(searchTerm && { searchTerm }),
         });
         return {
-          url: `${POST_URL}/getposts-as-admin?${params.toString()}`,
+          url: `${POST_URL}/admin/getposts?${params.toString()}`,
           method: "GET",
           credentials: "include",
         };
@@ -96,7 +96,7 @@ export const postApi = apiSlice.injectEndpoints({
     updatePost: builder.mutation({
       query: ({postId, updatedData}) => ({
         url: `${POST_URL}/updatePost/${postId}`,
-        method: "PUT",
+        method: "PATCH",
         credentials: "include",
         body: {
           title: updatedData.title,

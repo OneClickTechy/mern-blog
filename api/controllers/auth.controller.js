@@ -54,7 +54,7 @@ export const signin = async (req, res, next) => {
     const matchPassword = await bcrypt.compare(password, verifyUser.password);
 
     if (!matchPassword) {
-      return next(errorHandler(400, "Password does not match"));
+      return next(errorHandler(400, "Invalid email or password"));
     }
     generateToken(res, verifyUser._id, verifyUser.isAdmin);
     res.status(200).json({
