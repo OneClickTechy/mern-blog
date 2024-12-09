@@ -1,6 +1,5 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
-
-export const BASE_URL = import.meta.env.VITE_API_URL || "";
+import { BASE_URL } from "../constants";
 
 const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL });
 
