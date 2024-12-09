@@ -36,7 +36,7 @@ export default function Comment({ comment }) {
   };
   return (
     <>
-      {comment && commentUser && (
+      {comment && (
         <>
         {isEditing ? (
           <div>
@@ -49,13 +49,20 @@ export default function Comment({ comment }) {
         ):(
 <div className="flex gap-2  text-gray-300">
           <div>
-            <img
-              src={commentUser.profilePicture}
-              className="min-w-10 min-h-10 w-10 h-10 object-cover bg-gray-300 rounded-full"
-            />
+            {commentUser && commentUser.profilePicture ? (
+              <img
+                src={commentUser.profilePicture}
+                className="min-w-10 min-h-10 w-10 h-10 object-cover bg-gray-300 rounded-full"
+              />
+            ):(
+              <img
+                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                className="min-w-10 min-h-10 w-10 h-10 object-cover bg-gray-300 rounded-full"
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2 text-gray-700 dark:text-gray-500">
-            <span>@{commentUser.username}</span>
+            <span>@{commentUser?.username||"Unknown"} </span>
             <span>{comment.content}</span>
 
             <div className="flex items-center gap-2">
@@ -74,7 +81,7 @@ export default function Comment({ comment }) {
                   : null}
               </p>
               <div className="flex gap-2">
-                {user._id === commentUser._id && (
+                {user._id === commentUser?._id && (
                   <button
                     type="button"
                     className=" text-slate-600 dark:text-slate-500 hover:underline hover:text-slate-50 dark:hover:text-slate-50"
@@ -83,7 +90,7 @@ export default function Comment({ comment }) {
                     Edit
                   </button>
                 )}
-                {(user._id === commentUser._id || user.isAdmin) && (
+                {(user._id === commentUser?._id || user.isAdmin) && (
                   <button
                     type="button"
                     className=" text-slate-600 dark:text-slate-500 hover:underline hover:text-red-500 dark:hover:text-red-400"
