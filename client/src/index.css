@@ -33,6 +33,12 @@ body{
     line-height: 2rem;
     text-align: justify;
 }
+.content-container pre{
+    background: gray;
+    color:white;
+    padding: 1rem;
+    border-radius: 20px;
+}
 .content-container a{
     color: #0371ef;
 }

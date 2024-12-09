@@ -1,18 +1,31 @@
 import { Button, Label, Pagination, Select, TextInput } from "flowbite-react";
 import PostCard from "../components/PostCard";
 import { useGetPostsQuery } from "../app/service/postApiSlice";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Search() {
-  const searchParams = new URLSearchParams(window.location.search);
   const navigate = useNavigate();
+  const {search} = useLocation();
+  const searchParams = new URLSearchParams(search);
   const [startIndex, setStartIndex]=useState(0);
   const [searchData, setSearchData]=useState({
     searchTerm: searchParams.get("searchTerm") || "",
     sort: searchParams.get("sort") || "desc",
     category: searchParams.get("category") || "",
   })
+  useEffect(() => {
+    const searchParams = new URLSearchParams(search);
+    const searchDataFromUrl= {
+      searchTerm: searchParams.get("searchTerm") || "",
+      sort: searchParams.get("sort") || "desc",
+      category: searchParams.get("category") || "",
+    }
+    if(searchDataFromUrl.searchTerm !== searchData.searchTerm || searchDataFromUrl.sort !== searchData.sort || searchDataFromUrl.category !== searchData.category){
+      console.log("changed")
+      setSearchData(searchDataFromUrl)
+    }
+  },[search])
   const [currentPage, setCurrentPage] = useState(1);
   const handleChange = (e) => {
     setSearchData({
@@ -23,9 +36,7 @@ export default function Search() {
   const {data}=useGetPostsQuery({
     startIndex,
     limit:9,
-    searchTerm: searchParams.get("searchTerm") || "",
-    sort: searchParams.get("sort") || "desc",
-    category: searchParams.get("category") || "",
+    ...searchData,
   });
   let posts;
   if(data){
@@ -44,7 +55,7 @@ export default function Search() {
     e.preventDefault();
     setCurrentPage(1)
     setStartIndex(0);
-    const searchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams(search);
     searchParams.set("searchTerm", searchData.searchTerm);
     searchParams.set("sort", searchData.sort);
     searchParams.set("category", searchData.category);
